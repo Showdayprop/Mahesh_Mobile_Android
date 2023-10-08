@@ -11,3 +11,8 @@ For any future changes, if no new package has been added to the project, use fol
 
 - Use `npm run dev-copy-ios` for IOS build
 - Use `npm run dev-copy-android` for Android build
+
+Node version: 18.12.1
+NPM (node packet module): 9.2.0
+Ionic application : 4
+Ionic: 5.4.16
