@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Images</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()" fill="clear">
+        Exit
+        <ion-icon slot="end" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <!-- <file-pond #myPond 
+  [options]="pondOptions" 
+  [files]="pondFiles"
+  (oninit)="pondHandleInit()"
+  (onaddfile)="pondHandleAddFile($event)"
+  (onremovefile)="pondHandleRemoveFile($event)">
+  </file-pond> -->
+  <h3 *ngIf="images.length == 0" class='ion-text-center'>Please Select Image!</h3>
+ 
+  <ion-list>
+    <ion-reorder-group id="reorder" (ionItemReorder)="onRenderItems($event)" disabled="false">
+      <ion-item *ngFor="let img of images; index as pos" class='ion-text-wrap'>
+        <ion-reorder slot="start">
+          <ion-icon name="move"></ion-icon>
+        </ion-reorder>
+        <ion-thumbnail slot="start">
+          <img [src]="img.src">
+        </ion-thumbnail>
+        <!-- <ion-label>
+          {{ img.name }}
+        </ion-label> -->
+        <ion-button *ngIf="img.status == 0" slot="end" fill="clear" (click)="startUpload(img,pos)" [disabled]="uploaderBusy">
+          <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+        </ion-button>
+        <ion-spinner slot="end" *ngIf="img.status == 1" name="crescent" color="primary"></ion-spinner>
+        <ion-icon slot="end" *ngIf="img.status == 2" name="checkmark-circle-outline" color="primary" style="font-size: 2em;"></ion-icon>
+        <ion-button slot="end" fill="clear" (click)="deleteImage(img, pos)" [disabled]="img.status == 1">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+</ion-content>
+<ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-button fill="clear" expand="full" color="light" (click)="takePicture()" [disabled]="images.length==20">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Select Image</ion-button>
+  </ion-toolbar>
+</ion-toolbar>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="primary" expand="full" fill="solid" (click)="finish()" [disabled]="images.length==0 || checkImageUploads()">
+      Finish
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

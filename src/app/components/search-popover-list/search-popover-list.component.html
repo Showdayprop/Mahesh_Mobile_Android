@@ -1,0 +1,6 @@
+<ion-list>
+  <ion-item *ngFor="let item of list" (click)="valueSelected($event,item)">
+    <ion-label>{{item.area + ', '+ item.city}}</ion-label>
+  </ion-item>
+</ion-list>
+

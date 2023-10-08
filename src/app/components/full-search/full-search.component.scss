@@ -1,0 +1,19 @@
+ion-list-header{
+    display: flex;
+    justify-content: center;
+    font-size: 1.2em;
+    font-style: italic;
+    background: lightgrey;
+}
+.expansion-header{
+    font-size: 1.2em;
+    font-style: italic;
+    background: lightgrey !important;
+    font-weight: 500;
+}
+::ng-deep .mat-expansion-panel-body{
+    padding: 0px !important;
+}
+ion-content{
+    --background:#363c3f;
+  }

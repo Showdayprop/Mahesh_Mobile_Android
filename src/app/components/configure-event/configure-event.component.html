@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" color="secondary" class="close-icon" (click)="dismissModal()" slot="start"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{existingEventData? 'Edit Showday':'New Showday'}}</ion-title>
+    <ion-buttons slot="end" *ngIf="existingEventData">
+      <ion-button (click)="delete(existingEventData.id)" fill="clear">
+        Delete
+        <ion-icon slot="end" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Title <ion-text color="danger">*</ion-text>
+    </ion-label>
+    <ion-input [(ngModel)]="event.text" required type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Description</ion-label>
+    <ion-textarea [(ngModel)]="event.description"></ion-textarea>
+  </ion-item>
+  <ion-item *ngIf="!existingEventData">
+    <ion-label>Repeat for next 3 weeks</ion-label>
+    <ion-toggle [(ngModel)]="event.repeat" (ionChange)="change()"></ion-toggle>
+  </ion-item>
+  <!-- <mbsc-calendar [(ngModel)]="event.date" [options]="startDateOptions" placeholder="Please Select...">Date
+  </mbsc-calendar>
+  <mbsc-range [(ngModel)]="event.eventTime" [options]="rangeSettings">
+    <mbsc-range-start #startTime placeholder="Please Select...">From</mbsc-range-start>
+    <mbsc-range-end #endTime placeholder="Please Select...">Until</mbsc-range-end>
+  </mbsc-range> -->
+  <ion-item>
+    <ion-label>Minimum booking hours</ion-label>
+    <ion-select placeholder="Select One" interface="popover" [(ngModel)]="event.expiry">
+      <ion-select-option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="i">{{i}}&nbsp;{{i>1?'Hrs':'Hr'}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <!-- <mbsc-color [(ngModel)]="event.color" [options]="colorSettings"></mbsc-color> -->
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-no-padding">
+    <ion-button (click)="saveEvent()" expand="full" fill="solid" color="primary"
+      [disabled]="!(this.event.text && this.event.eventTime && this.event.eventTime.length==2 && this.event.date)">
+      Save
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

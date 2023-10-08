@@ -1,0 +1,20 @@
+<ion-content>
+  <ion-icon name="arrow-back" [routerLink]="[ '/dashboard/categories' ]" routerDirection='root'></ion-icon>
+  <ion-row class="ion-text-center">
+    <ion-col size="12">To start chatting, please provide your contact number</ion-col>
+    <ion-col size="12">
+      <ion-item [ngClass]="{'border-green':number?.length==10, 'border-red':number?.length!=10}">
+      <ion-label position="stacked">Contact Number</ion-label>
+      <ion-input [(ngModel)]="number" type="tel" autofocus="true" inputmode="tel" maxlength="10" minlength="10"></ion-input>
+    </ion-item></ion-col>
+    <ion-button [disabled]="number?.length!=10" color="tertiary" (click)="proceed()" expand="full" fill="solid" size="large" shape="round" class="proceed">
+      Proceed
+    </ion-button>
+    <ion-col size="12">
+      - OR -
+    </ion-col>
+    <ion-button [routerLink]="[ '/login' ]" routerDirection='root' expand="full" fill="solid" size="large" shape="round">
+      Login
+    </ion-button>
+  </ion-row>
+</ion-content>

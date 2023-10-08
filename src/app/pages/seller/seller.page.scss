@@ -1,0 +1,18 @@
+ion-header{
+    .title{
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+}
+.searchbar{
+  ion-col{
+    padding: 0px;
+    ion-searchbar{
+      padding-left: 2px;
+      padding-right: 3px;
+    }
+    ion-button{
+      height: 36px;
+    }
+  }
+}

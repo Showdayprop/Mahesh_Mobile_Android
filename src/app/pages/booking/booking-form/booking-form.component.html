@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Booking Form</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="add()" fill="clear">
+        Add
+        <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row>
+    <ion-col size="12" class="ion-text-center">
+      <h2>COVID & FICA Prospective Client Form</h2>
+    </ion-col>
+  </ion-row>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Booking Details
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="standard" class="full-width">
+        <mat-label>Property Title</mat-label>
+        <input matInput [value]="propertyData.property_name" disabled>
+      </mat-form-field>
+      <mat-form-field appearance="standard" class="full-width">
+        <mat-label>Property Reference Number</mat-label>
+        <input matInput [value]="propertyData.id" disabled>
+      </mat-form-field>
+      <mat-divider></mat-divider>
+      <mat-form-field appearance="standard" class="full-width">
+        <mat-label>Scheduled Date</mat-label>
+        <input matInput [value]="bookingEventData.date" disabled>
+      </mat-form-field>
+      <ion-row>
+        <ion-col size="6">
+          <mat-form-field appearance="standard">
+            <mat-label>Start Time</mat-label>
+            <input matInput [value]="bookingEventData.start" disabled>
+          </mat-form-field>
+        </ion-col>
+        <ion-col size="6">
+          <mat-form-field appearance="standard" flex>
+            <mat-label>End Time</mat-label>
+            <input matInput [value]="bookingEventData.end" disabled>
+          </mat-form-field>
+        </ion-col>
+      </ion-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ion-content>

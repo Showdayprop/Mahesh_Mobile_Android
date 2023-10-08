@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Image</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()" fill="clear">
+        Exit
+        <ion-icon slot="end" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row>
+    <ion-col size="2"></ion-col>
+    <ion-col size="">
+      <ion-button (click)="takePicture()" expand="block" fill="solid" shape="round" color="tertiary">
+        Add Picture
+      </ion-button>
+    </ion-col>
+    <ion-col size="2"></ion-col>
+  </ion-row>
+  <ion-row class="ion-text-center">
+    <ion-col size="12"><sup style="color: red;">*</sup>Please capture your image in Landscape</ion-col>
+  </ion-row>
+  <img *ngIf="imgSrc" [src]="imgSrc" alt="">
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="primary" expand="full" fill="solid" (click)="proceed()" [disabled]="!image">
+      Proceed
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

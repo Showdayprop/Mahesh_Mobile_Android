@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Attendance Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" closeDuration="300ms" pullMin="60" snapbackDuration="200ms"
+    (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="crescent"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div *ngIf="propertyData.showdays">
+    <div *ngIf="propertyData.showdays.length>0; else elseBlock">
+      <ion-list>
+        <ion-radio-group (ionChange)="selectShowday($event)">
+          <ion-list-header>
+            <ion-label>Select Showday</ion-label>
+          </ion-list-header>
+
+          <ion-item *ngFor="let showday of propertyData.showdays">
+            <ion-radio slot="end" [value]="showday"></ion-radio>
+            <ion-label>{{showday.showday_from | formatDate: 'dd MMM, HH:mm'}} -
+              {{showday.showday_to | formatDate: 'dd MMM, HH:mm'}}</ion-label>
+          </ion-item>
+        </ion-radio-group>
+        <ion-row *ngIf="!showday" class="ion-text-center">
+          <ion-col>
+            <ion-label>Select showday to view the booking*</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-button *ngIf="showday" style="width: 100%;" (click)="bookWalkIn(showday.id)">
+          Book Walk In
+        </ion-button>
+        <ion-card mode="ios" *ngFor="let booking of bookings">
+          <ion-card-header>
+            <ion-card-title>
+              {{booking.attendee_firstname}} {{booking.attendee_surname}}
+              <ion-chip>{{booking.type}}</ion-chip>
+              <ion-chip *ngIf="booking.status">{{booking.status}}</ion-chip>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row *ngIf="booking.is_foreigner == 0">
+              <ion-label>ID : {{booking.south_african_id}}</ion-label>
+            </ion-row>
+            <ion-row *ngIf="booking.type == 'Walk-In' && booking.is_foreigner == 1">
+              <ion-label>Passport : {{booking.passport_number}}</ion-label>
+            </ion-row>
+            <ion-row class="ion-align-items-center" *ngIf="booking.passport_image_name">
+              <ion-col>
+                <ion-label size="8">Passport : </ion-label>
+              </ion-col>
+              <ion-col size="4">
+                <div style="float: right; display: flex; justify-content: center;">
+                  <ion-button size="small" (click)="openImageGallery(booking)">
+                    <ion-icon name="cloud-download"></ion-icon>
+                    View ID
+                  </ion-button>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-label (click)="dialNumber(booking.mobile_number)">
+                <ion-icon name="call"></ion-icon> :
+                {{booking.mobile_number}}
+              </ion-label>
+            </ion-row>
+            <ion-row>
+              <ion-label>
+                <ion-icon name="people"></ion-icon> :
+                {{booking.number_of_attendees}}
+              </ion-label>
+            </ion-row>
+            <ion-row (click)="openVerificationPopup($event, booking)" tappable>
+              <ion-col style="padding-left: 0px;" size="7">
+                <ion-label>Verification Status</ion-label>
+              </ion-col>
+              <ion-col size="5">
+                <div style="display: flex; justify-content: center;" class="ion-align-items-center">
+                  <div *ngIf="booking.attendee_verification_status == 0" class='box red'></div>
+                  <div *ngIf="booking.attendee_verification_status == 0">Fail</div>
+                  <div *ngIf="booking.attendee_verification_status == 2" class='box yellow'></div>
+                  <div *ngIf="booking.attendee_verification_status == 2">Review</div>
+                  <div *ngIf="booking.attendee_verification_status == 1" class='box green'></div>
+                  <div *ngIf="booking.attendee_verification_status == 1">Pass</div>
+                  <ion-icon name="arrow-down"></ion-icon>
+                </div>
+              </ion-col>
+            </ion-row>
+            <div class="ion-text-center">
+              <ion-text *ngIf="showday.id == booking.id && booking.attendee_verification_status == 0" color="primary">
+                Unable to verify id. Contact attendee for the verification.
+              </ion-text>
+              <ion-text *ngIf="showday.id == booking.id && booking.attendee_verification_status == 2" color="primary">
+                Name mismatch. Contact attendee for the verification.
+              </ion-text>
+            </div>
+            <ion-row *ngIf="booking.status == 'Booked'">
+              <ion-col size="6">
+                <ion-button expand="full" fill="solid" shape="round" (click)="updateAttendance('Present', booking)">
+                  Check In
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button expand="full" fill="solid" shape="round" (click)="updateAttendance('Absent', booking)">
+                  Absent
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+    </div>
+    <ng-template #elseBlock>
+      <ion-row>
+        <ion-label>No showday slot available.</ion-label>
+      </ion-row>
+    </ng-template>
+  </div>
+</ion-content>

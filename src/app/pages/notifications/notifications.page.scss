@@ -1,0 +1,32 @@
+ion-content{
+    ion-list{
+        ion-item{
+            ion-thumbnail{
+                border-radius: 10%;
+                margin-right: 7px;
+            }
+            ion-label{
+                .dot{
+                    background-color: red;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-top: 5px;
+                }
+                .price{
+                    color: black;
+                    white-space: normal;
+                    font-weight: 600;
+                }
+                .i-area-name{
+                    color: #e65959;
+                    font-weight: 600;
+                    font-size: 15px;
+                }
+                .i-body{
+                    white-space: normal;
+                }
+            }
+        }
+    }
+}

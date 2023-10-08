@@ -1,0 +1,20 @@
+<!-- <ion-header collapse="condense" mode="ios"> -->
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-icon name="arrow-back" (click)="location.back()" class="close-icon" slot="start"></ion-icon>
+  </ion-buttons>
+  <ion-title>Search Results</ion-title>
+</ion-toolbar>
+<ion-content>
+  <mat-accordion [displayMode]="'flat'" multi>
+    <mat-expansion-panel [expanded]="true" *ngFor="let item of sections; index as i" [hidden]="item.isEmpty">
+      <mat-expansion-panel-header class="expansion-header">
+        <mat-panel-title>
+          {{item.title}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-expansion-list [type]="item.key" [searchString]="searchString" (isEmpty)="isEmpty($event,i)">
+      </app-expansion-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ion-content>

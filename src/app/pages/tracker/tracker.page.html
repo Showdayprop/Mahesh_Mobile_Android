@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="medium" class="animated fadeIn">
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+    </ion-buttons>
+    <ion-label color="light" class="title">Tracker</ion-label>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="dark-theme">
+<ion-router-outlet></ion-router-outlet>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isDetail">
+  <ion-fab-button (click)="createNew()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>

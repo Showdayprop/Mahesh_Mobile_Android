@@ -1,0 +1,163 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ page && page=='alerts' ? 'Manage Notifications' : 'Filters'}}</ion-title>
+    <ion-buttons *ngIf="(userMgmtSrvc.userFilters |async) && page!='alerts'" slot="end">
+      <ion-button (click)="clear()">
+        Clear
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-searchbar debounce="200" [(ngModel)]="searchResult" placeholder="Search for Area Name"
+      (ionChange)="searchbarInteraction($event)" (ionClear)="clearSearch()">
+    </ion-searchbar>
+  </ion-item>
+  <div>
+    <ion-chip *ngFor="let area of selectedAreas; index as i" outline color="dark">
+      <ion-icon name="pin"></ion-icon>
+      <ion-label>{{ area.area +', '+ area.city}}</ion-label>
+      <ion-icon name="close-circle" (click)="removeAreaFromSearch(i,area)"></ion-icon>
+    </ion-chip>
+  </div>
+  <form [formGroup]="filterForm">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label>Category <span class="form-error">*</span></ion-label>
+        <ion-select formControlName="requirement" interface="popover"
+          (ionChange)="requirementChanged($event.target.value)"
+          [selectedText]="preSelectedRequirement ? preSelectedRequirement : undefined">
+          <ion-select-option value="">Select</ion-select-option>
+          <ion-select-option *ngFor="let req of requirementsConfig" value="{{req.name}}"
+            [selected]="preSelectedRequirement == req.name">{{req.name|titlecase}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Type of Property</ion-label>
+        <ion-select formControlName="house_type" multiple="true">
+          <ion-select-option *ngFor="let house_types of houseTypesConfig" value="{{house_types.name}}">
+            {{house_types.name|titlecase}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <!-- <ion-item>
+          <ion-label>State <span class="form-error">*</span></ion-label>
+          <ion-select formControlName="state_select" interface="popover" 
+              (ionChange)="getCities($event.target.value)"
+              [selectedText]="preSelectedStateName ? preSelectedStateName : undefined">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let state of statesConfig" value="{{state.id}}" [selected]="preSelectedStateId == state.id">{{state.name|titlecase}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>City <span class="form-error">*</span></ion-label>
+          <ion-select formControlName="city_select" interface="popover" 
+                (ionChange)="getAreas($event.target.value)"
+                [selectedText]="preSelectedCityName ? preSelectedCityName : undefined"
+                [disabled]="checkForDisable('city')">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let city of citiesConfig" value="{{city.id}}" [selected]="preSelectedCityId == city.id">{{city.name|titlecase}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <mat-form-field class="input-fullwidth">
+            <mat-label> Areas (Max 5 Areas) <span class="form-error">*</span></mat-label>
+            <mat-chip-list #chipList aria-label="Area selection">
+              <mat-chip
+                *ngFor="let area of areas"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(area)">
+                {{area.area}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input
+                placeholder="Select the areas to filter the properties"
+                #areaInput
+                formControlName="area_select"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)"
+                [disabled]="checkForDisable('area')">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let area of filteredAreas | async" [value]="area.id">
+                {{area.area}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </ion-item> -->
+      <ion-item>
+        <ion-label>Minimum Price</ion-label>
+        <ion-select formControlName="minimum_price" interface="popover" (ionChange)="priceSelected('min',$event)">
+          <ion-select-option value="">Any</ion-select-option>
+          <ion-select-option *ngFor="let minPrice of priceOpts | slice:0:minPriceSliceEndIndex"
+            value="{{minPrice.value}}">{{minPrice.text}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Maximum Price</ion-label>
+        <ion-select formControlName="maximum_price" interface="popover" (ionChange)="priceSelected('max',$event)">
+          <ion-select-option value="">Any</ion-select-option>
+          <ion-select-option *ngFor="let maxPrice of priceOpts | slice:maxPriceSliceStartIndex"
+            value="{{maxPrice.value}}">{{maxPrice.text}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Minimum Bedrooms</ion-label>
+        <ion-select formControlName="bedrooms_select" interface="popover">
+          <ion-select-option value="">Select</ion-select-option>
+          <ion-select-option *ngFor="let bedroom of roomsConfig" value="{{bedroom.id}}">{{bedroom.label}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Minimum Bathrooms</ion-label>
+        <ion-select formControlName="bathrooms_select" interface="popover">
+          <ion-select-option value="">Select</ion-select-option>
+          <ion-select-option *ngFor="let bathroom of roomsConfig" value="{{bathroom.id}}">{{bathroom.label}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <div class="secondary-information-box">Fields marked with an '<span class="form-error">*</span>' are
+          required.<br>Complete mandatory fields to activate the 'Save' button.</div>
+      </ion-item>
+    </ion-list>
+  </form>
+  <ion-item>
+    <ion-label>{{page && page=='alerts' ? 'Activate Alert' : 'Set Filter Preference as Notifications'}}</ion-label>
+    <ion-toggle slot="start" [(ngModel)]="saveAlert"></ion-toggle>
+  </ion-item>
+
+</ion-content>
+
+<ion-row *ngIf="showCount">
+  <ion-col size="12" style="text-align: center;">
+    <ion-chip color="dark">
+      <ion-label color="dark">{{filterNumber}} results found</ion-label>
+    </ion-chip>
+  </ion-col>
+</ion-row>
+<ion-footer>
+  <ion-toolbar [color]="(!filterForm.valid || selectedAreas.length==0) ? 'light' : 'medium'" (click)="save()"
+    [disabled]="!filterForm.valid || selectedAreas.length==0">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="4"></ion-col>
+        <ion-col [ngStyle]="{'color': (!filterForm.valid || selectedAreas.length==0) ? '#c1c1c1' : 'white'}" size="4"
+          class="footer-button">
+          <ion-icon name="document"></ion-icon>
+          <ion-label>Save</ion-label>
+        </ion-col>
+        <ion-col size="4"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

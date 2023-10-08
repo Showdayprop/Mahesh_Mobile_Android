@@ -1,0 +1,172 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" color="secondary" [routerLink]="['/']" slot="start"></ion-icon>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveProfile(true)" *ngIf="queryParam && queryParam=='signup'">
+        {{ queryParam && queryParam=="signup" ? "Skip" : "Cancel"}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="dark-theme">
+  <mat-accordion>
+    <!-- <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Change your role
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ion-item>
+        <ion-icon name="key"></ion-icon>
+        <ion-label>
+          <strong>Seller </strong>or
+          <strong> Landlord </strong>or
+          <strong> Agent</strong>
+        </ion-label>
+        <ion-toggle value="sell" [checked]='myRoles.indexOf("2")>-1 || myRoles.indexOf("3")>-1' (ionChange)="roleOptionChecked($event)"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="cart"></ion-icon>
+        <ion-label>Buy</ion-label>
+        <ion-toggle value="1" [checked]='userData.myRoles.indexOf("1")>-1' (ionChange)="roleOptionChecked($event)"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person" mode="ios"></ion-icon>
+        <ion-label>Rent</ion-label>
+        <ion-toggle value="4" [checked]='userData.myRoles.indexOf("4")>-1' (ionChange)="roleOptionChecked($event)"></ion-toggle>
+      </ion-item>
+      <ion-button expand="full" color="primary" shape="round" (click)="saveChanges()" [disabled]="checkForUpdates()">
+        Save Roles
+      </ion-button>
+    </mat-expansion-panel> -->
+    <form [formGroup]="profileForm">
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Personal Information
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ion-item class="border">
+          <ion-label position="stacked">First Name <span class="form-error">*</span></ion-label>
+          <ion-input formControlName="first_name" type="text"></ion-input>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label position="stacked">Surname</ion-label>
+          <ion-input formControlName="surname" type="text"></ion-input>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label position="stacked">Email Address
+          </ion-label>
+          <ion-input formControlName="email_address" type="text"></ion-input>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label position="stacked">Mobile Number <span class="form-error">*</span></ion-label>
+          <ion-input formControlName="contact_number" type="text"></ion-input>
+        </ion-item>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Address
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ion-item class="border">
+          <ion-label>State</ion-label>
+          <ion-select formControlName="state_id" interface="popover" (ionChange)="getCities($event.target.value)">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let state of statesConfig" value="{{state.id}}"
+              [selected]="preSelectedStateId == state.id">{{state.name|titlecase}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label>City</ion-label>
+          <ion-select formControlName="city_id" interface="popover"
+            [selectedText]="preSelectedCityName ? preSelectedCityName : undefined">
+            <ion-select-option value="">Select</ion-select-option>
+            <ion-select-option *ngFor="let city of citiesConfig" value="{{city.id}}"
+              [selected]="preSelectedCityId == city.id">{{city.name|titlecase}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label position="stacked">Address</ion-label>
+          <ion-input formControlName="address" type="text"></ion-input>
+        </ion-item>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Additional Information
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ion-item class="border">
+          <ion-checkbox slot="end" formControlName="isCompany"></ion-checkbox>
+          <span>&nbsp;Are you a company?</span>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label position="stacked">{{ profileForm.controls.isCompany.value ? "Company " : "Service Provider
+            "}}Display Name</ion-label>
+          <ion-input formControlName="affiliate_name" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item class="border">
+          <ion-label position="stacked">About Us</ion-label>
+          <ion-textarea formControlName="about_me"></ion-textarea>
+        </ion-item>
+        <ion-item class="border" [hidden]="!profileForm.controls.isCompany.value">
+          <ion-label position="stacked">VAT Number</ion-label>
+          <ion-input formControlName="vat_number" type="text"></ion-input>
+        </ion-item>
+      </mat-expansion-panel>
+    </form>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Change Password
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="changePasswordForm" (ngSubmit)="updatePassword()">
+        <ion-item class="border">
+          <ion-label position="stacked">Current Password<ion-text color="danger">*</ion-text>
+          </ion-label>
+          <ion-input required formControlName="currentPass" type="password"></ion-input>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label position="stacked">New Password<ion-text color="danger">*</ion-text>
+          </ion-label>
+          <ion-input required formControlName="newPass" type="password"></ion-input>
+        </ion-item>
+        <ion-item class="border">
+          <ion-label position="stacked">Confirm Password<ion-text color="danger">*</ion-text>
+          </ion-label>
+          <ion-input required formControlName="confirmPass" type="password"></ion-input>
+        </ion-item>
+        <div class="error-message"
+          *ngIf="(changePasswordForm.value.newPass != changePasswordForm.value.confirmPass) && changePasswordForm.get('newPass').touched && changePasswordForm.get('confirmPass').touched">
+          New passwords do not match
+        </div>
+        <ion-button expand="full" color="primary" shape="round" type="submit" style="margin-top: 5%;"
+          [disabled]="disableUpdatePassButton()">
+          Update Password
+        </ion-button>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="medium" (click)="saveProfile()">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="2"></ion-col>
+        <ion-col [ngStyle]="{'color': 'white'}" size="8" class="footer-button">
+          <ion-label>Save{{queryParam && queryParam=='signup' ? " & Continue" : ""}}</ion-label>
+        </ion-col>
+        <ion-col size="2"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

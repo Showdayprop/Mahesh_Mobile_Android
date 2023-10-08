@@ -1,0 +1,23 @@
+<ion-header translucent="true" collapse>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Favourites</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngFor="let property of properties;">
+    <app-property-item [property]="property" [userSettings]="userSettings" (openDetail)="propertyDetail($event)"></app-property-item>
+  </div>
+  <ion-card *ngIf="!userMgmtSrvc.isLoggedIn">
+    <ion-card-content class="ion-text-center">
+      Login to add favourites.
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="(!properties || properties.length ==0) && userMgmtSrvc.isLoggedIn">
+    <ion-card-content class="ion-text-center">
+      No Favourites have been added
+    </ion-card-content>
+  </ion-card>
+</ion-content>

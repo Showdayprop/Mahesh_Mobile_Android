@@ -1,0 +1,45 @@
+:host {
+  ion-item {
+    font-size: 13px;
+  }
+
+  h5{
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .input-fullwidth{
+    width: 100%;
+  }
+
+  .input-dropdown-full{
+    width: 100%;
+  }
+}
+
+.mat-chip{
+  font-size: 12px;
+}
+
+.mat-option{
+  font-size: 12px;
+  line-height: 28px !important;
+  height: 28px !important;
+}
+ion-footer{
+  .footer-button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+  }
+}
+
+ion-checkbox{
+  margin: 0px 6px 0px 0px;
+}
+
+ion-toggle{
+  --background-checked: red;
+}

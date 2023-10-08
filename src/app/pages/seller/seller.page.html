@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="medium" class="animated fadeIn">
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+    </ion-buttons>
+    <ion-label color="light" class="title">Listings</ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="createNew()">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Create New
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-row class="searchbar">
+  <ion-col size="">
+    <ion-searchbar [(ngModel)]="searchText" placeholder="Search for Area or Ref#" inputmode="search" type="search" [debounce]="250" (ionClear)="clearSearch()"></ion-searchbar>
+  </ion-col>
+  <ion-col size="2" class="ion-align-self-center">
+    <ion-button (click)="search()" expand="block" fill="solid" class="ion-no-padding">
+      Go
+    </ion-button>
+  </ion-col>
+</ion-row>
+<ion-content>
+  <!-- <ion-button (click)="test()" expand="block" fill="clear" shape="round">
+    Click me
+  </ion-button> -->
+  <!-- <ion-refresher slot="fixed" closeDuration="300ms" pullMin="60" snapbackDuration="200ms" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-down"
+      pullingText="Pull to refresh"
+      refreshingSpinner="crescent"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div *ngFor="let property of properties;">
+    <app-property-item [property]="property" [userSettings]="userSettings" [page]="'seller'"
+      (deleteProperty)="deleteProperty($event)"
+      (editProperty)="editProperty($event)"
+      (openDetail)="propertyDetail($event)"></app-property-item>
+  </div>
+
+
+  <ion-infinite-scroll threshold="300px" (ionInfinite)="loadData($event)" disabled="true">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Loading more Showdays...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="live">
+        <ion-icon name="pulse"></ion-icon>
+        <ion-label>Live</ion-label>
+        <ion-badge *ngIf="propertiesCount?.live">{{propertiesCount?.live}}</ion-badge>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="draft">
+        <ion-icon name="save"></ion-icon>
+        <ion-label>Draft</ion-label>
+        <ion-badge *ngIf="propertiesCount?.draft">{{propertiesCount?.draft}}</ion-badge>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

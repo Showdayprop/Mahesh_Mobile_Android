@@ -1,0 +1,17 @@
+ion-content{
+    ion-button{
+        height: 100%;
+        font-size: 1.2em;
+        --padding-end: 0px;
+        margin-left: 4px;
+        margin-right: 0px;
+    }
+}
+ion-footer{
+    ion-toolbar{
+        --min-height:100%;
+        ion-button{
+            margin:0px;
+        }
+    }
+}

@@ -1,0 +1,88 @@
+<ion-header translucent="true" collapse>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-toolbar slot="--min-height:0px;">
+  <ion-buttons slot="start" *ngIf="notifications?.length!=0">
+    <ion-button (click)="markAllRead()" fill="outline" expand="block" [disabled]="disableMarkAllRead">
+      Mark all as Read
+    </ion-button>
+  </ion-buttons>
+  <!-- <ion-buttons slot="end">
+    <ion-button (click)="manageAlerts()">
+      Manage Alerts
+    </ion-button>
+  </ion-buttons> -->
+</ion-toolbar>
+
+<ion-content>
+  <ion-card *ngIf="!hasPermission">
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Turn on notifications</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        To get notifications about new and updated listings, you'll need to turn them on in your iOS settings.
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">1. Go to settings</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">2. Look for 'Showday' app, towards the bottom.</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">3. Select 'Notifications'</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">3. Toggle 'Allow Notifications' to on.</ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-refresher slot="fixed" closeDuration="300ms" pullMin="160" snapbackDuration="200ms"
+    (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="crescent"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list style="padding:0px;" *ngIf="notifications?.length>0">
+    <ion-item *ngFor="let i of notifications;index as indx" (click)="markOneRead(i.value,indx)">
+      <ion-thumbnail slot="start">
+        <img *ngIf='i.thumbnail' [src]="'https://www.showday.com/storage/' + i.value + '/medium/' + i.thumbnail"
+          alt="No Image">
+        <img *ngIf='!i.thumbnail' src="assets/img/thumb-alt.png">
+      </ion-thumbnail>
+      <ion-label>
+        <span *ngIf="i.is_read == 0" class="ion-float-end dot"></span>
+        <!-- <div *ngIf="(i.type =='new_property' || i.type=='update_property') && (i.upper_price!=0 || i.bottom_price!=0)" class="price">
+          <span *ngIf="i.bottom_price!=0">
+            R&nbsp;{{i.bottom_price | number: '2.'}}
+          </span>
+          <span *ngIf="i.bottom_price!=0 && i.upper_price!=0">
+            &nbsp;To&nbsp;
+          </span>
+          <span *ngIf="i.upper_price!=0">
+            R&nbsp;{{ i.upper_price | number: '2.'}}
+          </span>
+        </div>
+        <h2 *ngIf="!((i.type =='new_property' || i.type=='update_property') && (i.upper_price!=0 || i.bottom_price!=0))">{{ i.title }}</h2> -->
+        <h2 class="price">{{ i.title }}</h2>
+        <p class="i-body">{{ i.body }}</p>
+        <!-- <p class="ion-float-start i-area-name" *ngIf="i.area_name">{{ i.area_name}}</p> -->
+        <p class="ion-float-end">{{ i.sent_on | dateAgo}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-card *ngIf="notifications?.length==0">
+    <ion-card-content class="ion-text-center">
+      No Available Notifications.!
+    </ion-card-content>
+  </ion-card>
+  <ion-infinite-scroll threshold="300px" (ionInfinite)="loadData($event)" disabled="true">
+    <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more Showdays...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

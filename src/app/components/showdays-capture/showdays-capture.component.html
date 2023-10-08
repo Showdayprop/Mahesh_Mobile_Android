@@ -1,0 +1,29 @@
+<ion-item-divider class="showday">
+  <ion-title class="ion-text-center">Showdays</ion-title>
+  <ion-icon *ngIf="showdays.length < 5" name="add-circle-outline" (click)="addShowday()"></ion-icon>
+</ion-item-divider>
+<ion-card *ngFor="let showday of showdays; index as i" mode="ios">
+  <ion-card-header (click)="removeShowday(i, showday.id)">
+    <ion-icon name="close" class="delete-showday"></ion-icon>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row class="picker">
+      <ion-col size="4" class="ion-align-self-center">Start : </ion-col>
+      <ion-col size="7">
+        <ion-datetime [(ngModel)]="showday.startDate" [max]="maxDate" [min]="minDate" placeholder="Select Date" (ionChange)="fireChange(i, 'Start')" display-format="MMM DD, HH:mm" picker-format="MMM DD HH:mm" minuteValues="0,15,30,45"></ion-datetime>
+      </ion-col>
+      <ion-col size="1" class="ion-align-self-center icon">
+        <ion-icon name="arrow-dropdown" class="ion-float-start"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row class="picker">
+      <ion-col size="4" class="ion-align-self-center">End : </ion-col>
+      <ion-col size="7">
+        <ion-datetime [(ngModel)]="showday.endDate" [max]="maxDate" [min]="showday.startDate" placeholder="Select Date" (ionChange)="fireChange(i, 'End')" display-format="MMM DD, HH:mm" picker-format="MMM DD HH:mm" minuteValues="0,15,30,45"></ion-datetime>
+      </ion-col>
+      <ion-col size="1" class="ion-align-self-center icon">
+        <ion-icon name="arrow-dropdown" class="ion-float-start"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

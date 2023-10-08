@@ -1,0 +1,81 @@
+<ion-header translucent="true" collapse>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Monthly Repayment Calculator</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding animated fadeIn login auth-page">
+  <div align="right">
+    <ion-button (click)="share()">
+      <ion-icon mode="md" slot="start" name="share"></ion-icon>
+      Share
+    </ion-button>
+  </div>
+
+  <ion-item>
+    <ion-label position="floating">Purchase Price</ion-label>
+
+    <ion-input id="purchasePrice" name="purchasePrice" type="text" [(ngModel)]="purchase_price"
+      (ngModelChange)="calculate($event,'purchase_price')">
+      <i>R&nbsp;</i>
+    </ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Deposit</ion-label>
+
+    <ion-input id="deposite" name="deposite" type="text" [(ngModel)]="deposite"
+      (ngModelChange)="calculate($event,'deposite')">
+      <i>R&nbsp;</i>
+    </ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Term (years)</ion-label>
+
+    <ion-input id="term" name="term" type="text" [(ngModel)]="term" (ngModelChange)="calculate($event,'term')">
+    </ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Interest Rate</ion-label>
+
+    <ion-input id="interest_rate" name="interest_rate" type="text" [(ngModel)]="interest_rate"
+      (ngModelChange)="calculate($event,'interest_rate')">
+    </ion-input>
+  </ion-item>
+  <ion-grid style="margin-top: 10px;">
+    <ion-row class="ion-no-padding animated fadeInUp" lines="none">
+      <ion-col>
+        <ion-label>Loan Amount</ion-label>
+      </ion-col>
+      <ion-col style="text-align: right;">
+        <ion-label> <i>R&nbsp;</i> {{ loan_amount | number: "1.0-0" }}</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-no-padding animated fadeInUp" lines="none">
+      <ion-col>
+        <ion-label>Monthly Loan Repayment</ion-label>
+      </ion-col>
+      <ion-col style="text-align: right;">
+        <ion-label>
+          <i>R&nbsp;</i> {{ monthly_loan_repayment | number: "1.0-0" }}
+        </ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button (click)="reset()" class="full-width">Reset</ion-button>
+
+  <div>
+    <ion-label style="font-size: small">
+      *Disclaimer: Please note that by default this calculator uses the prime
+      interest rate for bond payment calculations. This is purely for
+      convenience and not an indication of the interest rate that might be
+      offered to you by a bank. This calculator is intended to provide estimates
+      based on the indicated amounts, rates and fees. Whilst we make every
+      effort to ensure the accuracy of these calculations, we cannot be held
+      liable for inaccuracies. Showday does not accept liability for any damages
+      arising from the use of this calculator.
+    </ion-label>
+  </div>
+</ion-content>

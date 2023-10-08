@@ -1,0 +1,389 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start" *ngIf="innerArray.length == 0">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start" *ngIf="innerArray.length > 0" (click)="goBack()">
+        <ion-button class="back_btn">
+            <ion-icon name="arrow-back" class="icon_back" mode="ios"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title>Property Detail</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="share()">
+        <ion-icon mode="md" slot="start" name="share"></ion-icon>
+        Share
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="propertyData">
+  <!-- <div class="ion-padding bg-dark">
+    <p class="ion-no-margin text-white">
+        {{ propertyData.property_name }}
+    </p>
+    <div class="mt10"></div>
+    <ion-text color="success" class="fw700" *ngIf="propertyData.bottom_price_value">{{propertyData.currency}}{{propertyData.bottom_price_value}}</ion-text>  
+    <ion-text color="secondary" class="fw700" *ngIf="propertyData.middle_price_value">{{propertyData.currency}}{{propertyData.middle_price_value}}</ion-text> 
+    <ion-text color="warning" class="fw700" *ngIf="propertyData.upper_price_value">{{propertyData.currency}}{{propertyData.upper_price_value}}</ion-text>
+    <div class="mt10"></div>
+  </div> -->
+  <ion-row class="" *ngIf="propertyImages.length>0">
+    <ion-slides *ngIf="isPhotosTabActive" id="slides" pager="true" [options]="slideOpts" (ionSlidesDidLoad)="sliderLoaded()">
+      <ion-slide (click)="openURL();" class="threed-parent" *ngIf="trustedEmbeddedUrl">
+        <img *ngIf="propertyData.default_pic" src="{{path + propertyData.id + '/' + propertyData.default_pic}}">
+        <img *ngIf="!propertyData.default_pic" src="../assets/img/nophoto.png">
+
+        <ion-icon class="centered" src="assets/icons/360-view.svg"></ion-icon>
+      </ion-slide>
+      <ion-slide *ngFor="let image of propertyImages;index as i" (click)="openImageGallery(i)">
+        <img style="width: 100%" src="{{imagePath + image.gallery_image}}">
+      </ion-slide>
+    </ion-slides>
+    <!-- Add Pagination -->
+    <div *ngIf="isPhotosTabActive" class="swiper-pagination"></div>
+    <div *ngIf="!isPhotosTabActive" style="width: 100%;" tappable (click)="openURL();" class="threed-parent">
+      <img *ngIf="propertyData.default_pic" src="{{path + propertyData.id + '/' + propertyData.default_pic}}">
+      <img *ngIf="!propertyData.default_pic" src="../assets/img/nophoto.png">
+
+      <ion-icon class="centered" src="assets/icons/360-view.svg"></ion-icon>
+      <!-- <img class="centered" src="../assets/icons/360-view.png"> -->
+    </div>
+
+    <!-- <div *ngIf="!isPhotosTabActive" style="width: 100%;">
+      <iframe width="100%" height="315" [src]="trustedEmbeddedUrl" frameborder="0" allowfullscreen (click)="$event.preventDefault();openURL();"></iframe>
+    </div> -->
+  </ion-row>
+  <ion-row class="ion-text-center photo-tab" *ngIf="propertyImages.length>0">
+    <ion-col size="4" (click)="isPhotosTabActive=true;">
+      <ion-icon name="images"></ion-icon><span>Photos</span>
+    </ion-col>
+    <ion-col size="4" (click)="propertyVideo(propertyData)" *ngIf="propertyData?.video_link">
+      <ion-icon name="videocam"></ion-icon><span>Video</span>
+    </ion-col>
+    <ion-col size="4" (click)="propertyModel(propertyData)" *ngIf="propertyData?.model_link">
+      <ion-icon name="cube"></ion-icon><span>Model</span>
+    </ion-col>
+    <!-- <ion-col size="6" (click)="videoTourClicked()" *ngIf="propertyData?.input3d_tour">
+      <ion-icon src="assets/icons/360-view.svg"></ion-icon><span>3D Tour</span>
+    </ion-col> -->
+  </ion-row>
+  <ion-row class="" *ngIf="propertyImages.length==0 && propertyData.default_pic">
+    <img style="width: 100%" src="{{propertyData.image_full_path}}">
+  </ion-row>
+  <ion-row class="" *ngIf="propertyImages.length==0 && !propertyData.default_pic">
+    <img style="width: 100%" src="../assets/img/nophoto.png">
+  </ion-row>
+  <ion-row class="price ion-align-items-center">
+    <div *ngIf="propertyData.is_poa == 0; else elseBlock">
+      <ion-col size="5">
+        <!-- <ion-row> -->
+        <ion-text color="success" class="fw700" *ngIf="propertyData.bottom_price_value">
+          {{propertyData.currency}}{{propertyData.bottom_price_value}}</ion-text>
+      </ion-col>
+      <!-- </ion-row> -->
+      <!-- <ion-row> 
+          <ion-text color="secondary" class="fw700" *ngIf="propertyData.middle_price_value">{{propertyData.currency}}{{propertyData.middle_price_value}}</ion-text>
+        </ion-row> -->
+      <!-- <ion-row> -->
+      <ion-col size="5">
+        <ion-text color="warning" class="fw700" *ngIf="propertyData.upper_price_value">
+          {{propertyData.currency}}{{propertyData.upper_price_value}}</ion-text>
+        <!-- </ion-row> -->
+      </ion-col>
+    </div>
+    <ng-template #elseBlock>
+      <ion-col size="5">
+        <ion-text color="success" class="fw700">POA</ion-text>
+      </ion-col>
+    </ng-template>
+    <ion-col class="ion-align-self-center ion-text-center" size="2">
+      <app-fav [id]="propertyData.id"></app-fav>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="6" *ngIf="propertyData.is_no_transfer_cost == 1">
+      <ion-text color="success" class="fw700">NO TRANSFER COST</ion-text>
+    </ion-col>
+    <ion-col size="6" *ngIf="propertyData.is_no_transfer_duty == 1">
+      <ion-text color="success" class="fw700">NO TRANSFER DUTY</ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="desc" size="12">{{ propertyData.property_name }}</ion-col>
+  </ion-row>
+  <ion-text color="primary" style="padding-left: 10px;">
+    {{propertyData?.area}}, {{propertyData?.city}}
+  </ion-text>
+  <ul class="amenities ion-float-end" style="padding-right: 10px;">
+    <li>
+      <ion-img style="width:25px; height:16px" src="../assets/icons/bedroom_icon.png"></ion-img>
+    </li>
+    <li>{{propertyData.num_bedroom}}</li>
+    <li>
+      <ion-img style="width:25px; height:16px" src="../assets/icons/bathroom_icon.png"></ion-img>
+    </li>
+    <li>{{propertyData.num_bathroom}}</li>
+    <li>
+      <ion-img style="width:25px; height:16px" src="../assets/icons/car_parking_icon.png"></ion-img>
+    </li>
+    <li>{{propertyData.num_carparking}}</li>
+  </ul>
+  <ion-row>
+    <ion-col size="12">
+      <ion-chip color="danger">
+        <ion-label><span class="ref-label">Ref#: </span> <span class="ref-value">{{propertyData.id}}</span></ion-label>
+      </ion-chip>
+    </ion-col>
+    <!-- <span ion-float-end><strong>Ref#:</strong> {{propertyData.id}}</span> -->
+  </ion-row>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <div class="desc-text label-text ion-text-justify">
+          {{propertyData.property_desc | replaceTags}}
+        </div>
+      </ion-col>
+    </ion-row>
+    <!--
+    <ion-row>
+      <ion-col size="12">
+        <ion-label>Address</ion-label>
+        <div class="label-text">
+          {{propertyData.property_address}}, {{propertyData.area}}, {{propertyData.city}}, {{propertyData.state}}, {{propertyData.country}}
+        </div>
+      </ion-col>
+    </ion-row>
+    -->
+    <ion-row>
+      <ion-col size="4">
+        <ion-label>Category</ion-label>
+        <div class="label-text">{{propertyData.available_for|titlecase}}</div>
+      </ion-col>
+      <ion-col size="4">
+        <ion-label>Type of Property</ion-label>
+        <div class="label-text">{{propertyData.property_type|titlecase}}</div>
+      </ion-col>
+      <ion-col size="4" *ngIf="propertyData.buildings_approx">
+        <ion-label>Floor Size (sqm)</ion-label>
+        <div class="label-text">{{propertyData.buildings_approx}} m<sup>2</sup></div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="4" *ngIf="propertyData.landsize_approx">
+        <ion-label>Land Size (sqm)</ion-label>
+        <div class="label-text">{{propertyData.landsize_approx}} m<sup>2</sup></div>
+      </ion-col>
+      <ion-col size="4" *ngIf="propertyData.tax_approx">
+        <ion-label>Rates and Taxes</ion-label>
+        <div class="label-text">{{propertyData.currency}}{{propertyData.tax_approx}}</div>
+      </ion-col>
+      <ion-col size="4" *ngIf="propertyData.levis_approx">
+        <ion-label>Levies Approx.</ion-label>
+        <div class="label-text">{{propertyData.currency}}{{propertyData.levis_approx}}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list *ngIf="propertyData.showdays.length > 0; else elseBlock2">
+    <ion-list-header *ngIf="bookings.length == 0">
+      <ion-label style="font-size: medium;">Available Showdays</ion-label>
+    </ion-list-header>
+    <ion-list-header *ngIf="bookings.length > 0">
+      <ion-label style="font-size: medium;">Booked Showdays</ion-label>
+    </ion-list-header>
+    <div *ngIf="bookings.length == 0">
+      <ion-row>
+        <ion-col size="6" class="ion-text-center">
+          <ion-label style="font-size: medium;">Starting on</ion-label>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          <ion-label style="font-size: medium;">Ending on</ion-label>
+        </ion-col>
+        <ion-col size="2" class="ion-text-center">
+        </ion-col>
+      </ion-row>
+      <ion-radio-group (ionChange)="selectShowday($event)" [value]="selectedShowday">
+        <ion-item *ngFor="let showday of propertyData.showdays">
+          <ion-radio slot="end" [value]="showday" mode="md"></ion-radio>
+          <ion-col size="6" class="ion-text-center">
+            <div class="label-text">
+              {{showday.showday_from | formatDate: 'dd MMM, HH:mm'}}
+            </div>
+          </ion-col>
+          <ion-col size="6" class="ion-text-center">
+            <div class="label-text">
+              {{showday.showday_to | formatDate: 'dd MMM, HH:mm'}}
+            </div>
+          </ion-col>
+        </ion-item>
+      </ion-radio-group>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="bookShowday(selectedShowday.id)" style="width: 100%;">
+            Book Now
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngIf="bookings.length>0">
+      <ion-row>
+        <ion-col size="6" class="ion-text-center">
+          <ion-label style="font-size: medium;">Starting on</ion-label>
+        </ion-col>
+        <ion-col size="6" class="ion-text-center">
+          <ion-label style="font-size: medium;">Ending on</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-item-sliding [disabled]="showday.id != bookings[0]?.id" *ngFor="let showday of propertyData.showdays">
+        <ion-item *ngIf="showday.id == bookings[0]?.id; else elseBlock3"
+          [ngStyle]="{'border-color': bookings[0]?.attendee_verification_status == 0 ? 'red' : bookings[0]?.attendee_verification_status == 1 ? 'green':'yellow'}"
+          class="booked">
+          <!-- <ion-icon name="close-circle" color="primary"></ion-icon> -->
+          <div class="text">
+            {{ bookings[0]?.attendee_verification_status == 0 ? 'Unable to verify id. Contact agent'
+            : bookings[0]?.attendee_verification_status == 1 ? 'You are now checked in.'
+            :'Name mismatch. Contact agent' }}
+          </div>
+          <ion-col size="6" class="ion-text-center">
+            <div class="label-text" style="font-size: medium;">
+              {{showday.showday_from | formatDate: 'dd MMM, HH:mm'}}
+            </div>
+          </ion-col>
+          <ion-col size="6" class="ion-text-center">
+            <div class="label-text" style="font-size: medium;">
+              {{showday.showday_to | formatDate: 'dd MMM, HH:mm'}}
+            </div>
+          </ion-col>
+        </ion-item>
+        <ng-template #elseBlock3>
+          <ion-item>
+            <ion-col size="6" class="ion-text-center">
+              <div class="label-text" style="font-size: medium;">
+                {{showday.showday_from | formatDate: 'dd MMM, HH:mm'}}
+              </div>
+            </ion-col>
+            <ion-col size="6" class="ion-text-center">
+              <div class="label-text" style="font-size: medium;">
+                {{showday.showday_to | formatDate: 'dd MMM, HH:mm'}}
+              </div>
+            </ion-col>
+          </ion-item>
+        </ng-template>
+        <!-- <div class="ion-text-center">
+          <ion-text *ngIf="showday.id == bookings[0]?.id && bookings[0]?.attendee_verification_status == 0"
+            style="color: red;" color="primary">
+            Unable to verify id. Contact agent for the verification.
+          </ion-text>
+          <ion-text *ngIf="showday.id == bookings[0]?.id && bookings[0]?.attendee_verification_status == 1"
+            style="color: green;">
+            You are now checked in.
+          </ion-text>
+          <ion-text *ngIf="showday.id == bookings[0]?.id && bookings[0]?.attendee_verification_status == 2"
+            style="color: yellow;">
+            Name mismatch. Contact agent for the verification.
+          </ion-text>
+        </div> -->
+        <ion-item-options side="end">
+          <ion-item-option expandable (click)="cancelBooking(bookings[0]?.booking_id)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </div>
+  </ion-list>
+  <ng-template #elseBlock2>
+    <ion-row class="no_showday_slot_row">
+      <ion-label>No showday slot available.</ion-label>
+    </ion-row>
+  </ng-template>
+
+   
+  <ion-grid *ngIf="propertyData.similar_properties && propertyData.similar_properties.length > 0">
+    <ion-label class="similar_heading"> Similar Properties</ion-label>
+
+    <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true,spaceBetween: 0 }">
+      <ion-slide *ngFor="let similar of propertyData.similar_properties;let i = index" class="similar_slide">
+        <ion-col (click)="propertyById(similar['child_property'])">
+          <ion-img class="similar_img" src="{{ similar['default_pic'] == '' ? '../assets/img/nophoto.png' : path + '/' + similar['child_property'] + '/' + similar['default_pic'] }}"></ion-img>
+          <ion-row>
+            <ion-label class="similar_ref_label">#<ion-text class="similar_ref_no">{{ similar['child_property'] }}</ion-text></ion-label>
+          </ion-row>
+          <ion-row>
+            <ion-text class="similar_title">{{ similar['property_name'] }}</ion-text>
+          </ion-row>
+        </ion-col>
+      </ion-slide>
+    </ion-slides>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-label>
+      Calculations
+    </ion-label>
+    <ion-row>
+      <ion-col>
+        Monthly Repayment
+      </ion-col>
+      <ion-col style="text-align: right;">
+        R {{monthly_loan_repayment | number: "1.0-0"}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="reCalculate()" style="width: 100%;">
+          Recalculate
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="medium">
+    <ion-buttons>
+      <ion-grid fixed>
+        <ion-row class="ion-justify-content-around">
+          <ion-col class="footer-button" size="4">
+            <ion-button (click)="viewContact()" style="height: 4.5vh; white-space: normal;">
+              <ion-icon name="contact"></ion-icon>
+              <ion-label *ngIf="pageType && pageType=='joint' && propertyData.joint_contact_number;else agent ">
+                Seller Details</ion-label>
+
+              <ng-template #agent>
+                <ion-label>
+                  Agent Details</ion-label>
+              </ng-template>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <ion-button (click)="chatContact()" style="height: 4.5vh; white-space: normal;">
+            <ion-icon name="chatboxes"></ion-icon>
+            <ion-label>
+              {{propertyData.joint_user_id ? "Chat with Seller" : "Chat with Agent"}}</ion-label>
+          </ion-button>
+          </ion-col>
+          <ion-col class="footer-button" size="4"
+            *ngIf="bookings[0]?.attendee_verification_status > 0 && bookings.length > 0 && !(!propertyData.property_latitude || !propertyData.property_longitude || propertyData.property_latitude === '0' || propertyData.property_longitude === '0')">
+            <ion-button (click)="loadMap()" style="height: 4.5vh;">
+              <ion-icon name="locate"></ion-icon>
+              <ion-label>Directions</ion-label>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+<!-- <ion-footer>
+  <ion-segment>
+    <ion-segment-button (click)="viewContact()">
+      <ion-icon name="contact"></ion-icon>
+      <ion-label>View Contact</ion-label>
+    </ion-segment-button>
+    <ion-segment-button (click)="loadMap()" [disabled]="propertyData && (propertyData.property_latitude === '0' || propertyData.property_longitude === '0')">
+      <ion-icon name="locate"></ion-icon>
+      <ion-label>Drive Thru</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-footer> -->

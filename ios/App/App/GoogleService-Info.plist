@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>74844896399-oossq9a0lojsacf0g5otqj41t3f9dbjl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.74844896399-oossq9a0lojsacf0g5otqj41t3f9dbjl</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>74844896399-vd5glm7dd3q9jap9es4c8aj883effejj.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCVde2I09dVhn9R9bKgQTJdXrP9yqhERko</string>
+	<key>GCM_SENDER_ID</key>
+	<string>74844896399</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.properties.showday</string>
+	<key>PROJECT_ID</key>
+	<string>showday-a4b59</string>
+	<key>STORAGE_BUCKET</key>
+	<string>showday-a4b59.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:74844896399:ios:376befd6028438d113c4fa</string>
+	<key>DATABASE_URL</key>
+	<string>https://showday-a4b59.firebaseio.com</string>
+</dict>
+</plist>

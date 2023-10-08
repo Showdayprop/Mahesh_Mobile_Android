@@ -1,0 +1,135 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" color="secondary" class="close-icon" (click)="dismissModal(false)" slot="start"></ion-icon>
+    </ion-buttons>
+    <ion-title *ngIf="type == 'Pre-Booking'">Create Booking</ion-title>
+    <ion-title *ngIf="type == 'Walk-In'">Create Walk-In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="type == 'Pre-Booking'" [formGroup]="bookingForm" class="list-form">
+    <ion-item>
+      <ion-label position="stacked">First Name*</ion-label>
+      <ion-input type="text" formControlName="attendee_firstname" autocapitalize="words"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.attendee_firstname.touched && getBookingForm.attendee_firstname.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.attendee_firstname.errors.required">Required</ion-text>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Surname</ion-label>
+      <ion-input type="text" formControlName="attendee_surname" autocapitalize="words"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Number of attendees*</ion-label>
+      <ion-select value="1" formControlName="number_of_attendees">
+        <ion-select-option value="1">1</ion-select-option>
+        <ion-select-option value="2">2</ion-select-option>
+        <ion-select-option value="3">3</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.number_of_attendees.touched && getBookingForm.number_of_attendees.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.number_of_attendees.errors.required">Required</ion-text>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Mobile Number*</ion-label>
+      <ion-input formControlName="mobile_number"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.mobile_number.touched && getBookingForm.mobile_number.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.mobile_number.errors.required">Required</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.mobile_number.errors.minlength || getBookingForm.mobile_number.errors.maxlength">Exactly 10 characters
+        required</ion-text>
+    </div>
+    <ion-item>
+      <ion-label>Are you foreigner?</ion-label>
+      <ion-checkbox slot="start" formControlName="is_foreigner"></ion-checkbox>
+    </ion-item>
+    <ion-item *ngIf="!bookingForm.get('is_foreigner').value">
+      <ion-label position="stacked">South African ID</ion-label>
+      <ion-input formControlName="south_african_id"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.south_african_id.touched && getBookingForm.south_african_id.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.required">Required</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.pattern">Only digits are allowed</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.minlength">Minimum 13 digits required</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.maxlength">Maximum 13 digits required</ion-text>
+    </div>
+    <ion-item *ngIf="bookingForm.get('is_foreigner').value">
+      <ion-label>Passport Image : </ion-label>
+      <ion-input formControlName="passport_image"></ion-input>
+      <ion-button (click)="takePicture()">Browse</ion-button>
+    </ion-item>
+    <div class="error-message" *ngIf="bookingForm.get('is_foreigner').value && getBookingForm.passport_image.touched && getBookingForm.passport_image.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.passport_image.errors.required">Required</ion-text>
+    </div>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="bookNowPreBooking()" [disabled]="!bookingForm.valid" style="width: 100%;">
+          Book Now
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+  <form *ngIf="type == 'Walk-In'" [formGroup]="bookingForm" class="list-form">
+    <ion-item>
+      <ion-label position="stacked">First Name*</ion-label>
+      <ion-input type="text" formControlName="attendee_firstname"  autocapitalize="words"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.attendee_firstname.touched && getBookingForm.attendee_firstname.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.attendee_firstname.errors.required">Required</ion-text>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Surname</ion-label>
+      <ion-input type="text" formControlName="attendee_surname"  autocapitalize="words"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Number of attendees*</ion-label>
+      <ion-select value="1" formControlName="number_of_attendees">
+        <ion-select-option value="1">1</ion-select-option>
+        <ion-select-option value="2">2</ion-select-option>
+        <ion-select-option value="3">3</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.number_of_attendees.touched && getBookingForm.number_of_attendees.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.number_of_attendees.errors.required">Required</ion-text>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Mobile Number*</ion-label>
+      <ion-input formControlName="mobile_number"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.mobile_number.touched && getBookingForm.mobile_number.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.mobile_number.errors.required">Required</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.mobile_number.errors.minlength">Minimum 10 characters
+        required</ion-text>
+    </div>
+    <ion-item>
+      <ion-label>Foreigner</ion-label>
+      <ion-checkbox slot="start" formControlName="is_foreigner"></ion-checkbox>
+    </ion-item>
+    <ion-item *ngIf="!bookingForm.get('is_foreigner').value">
+      <ion-label position="stacked">South African ID*</ion-label>
+      <ion-input formControlName="south_african_id"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="getBookingForm.south_african_id.touched && getBookingForm.south_african_id.errors">
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.required">Required</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.pattern">Only digits are allowed</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.minlength">Minimum 13 digits required</ion-text>
+      <ion-text color="danger" *ngIf="getBookingForm.south_african_id.errors.maxlength">Maximum 13 digits required</ion-text>
+    </div>
+    <ion-item *ngIf="bookingForm.get('is_foreigner').value">
+      <ion-label position="stacked">Passport Number*</ion-label>
+      <ion-input formControlName="passport_number"></ion-input>
+    </ion-item>
+    <div class="error-message" *ngIf="bookingForm.get('is_foreigner').value && getBookingForm?.passport_number?.touched && getBookingForm?.passport_number?.errors">
+      <ion-text color="danger" *ngIf="getBookingForm?.passport_number?.errors.required">Required</ion-text>
+    </div>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="bookNowWalkIn()" [disabled]="!bookingForm.valid" style="width: 100%;">
+          Book Now
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

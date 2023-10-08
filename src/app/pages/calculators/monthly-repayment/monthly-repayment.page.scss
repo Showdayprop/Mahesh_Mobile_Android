@@ -1,0 +1,76 @@
+:host {
+    --ion-form-label-color: #333031;
+    --ion-form-input-color: #333031;
+
+    .full-width{
+        width: 100%;
+    }
+
+    .no-padding {
+        .mat-form-field-wrapper {
+            padding-bottom: 0 !important;
+        }
+    }
+
+    .auth-content {
+        margin: 0 5%;
+
+        .list-form {
+            padding: 0;
+            margin-bottom: 0;
+
+            ion-item {
+                background: none;
+                padding: 0;
+
+                &:first-child {
+                    border-top: none;
+                }
+
+                &:after {
+                    display: none;
+                }
+
+                ion-label {
+                    font-size: 14px;
+                    color: var(--ion-form-label-color);
+                    font-weight: bold;
+                }
+
+                ion-input {
+                    font-size: 14px;
+                    color: var(--ion-form-input-color);
+                }
+            }
+        }
+    }
+}
+
+mat-form-field, mat-checkbox{
+    font-size: 13px;
+}
+
+ion-list-header{
+    padding-left: 0;
+    font-weight: bold;
+    color: var(--ion-section-header-color);
+}
+
+.paz {
+    position: relative;
+    z-index: 10;
+}
+
+.build-v{
+    font-size: 11px;
+    color: #524747;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.header-md:after{
+    height: 0px !important;
+}
+.ios ion-segment{
+    padding-bottom: 5%;
+}

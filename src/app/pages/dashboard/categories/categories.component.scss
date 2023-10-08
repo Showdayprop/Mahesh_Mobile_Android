@@ -1,0 +1,50 @@
+ion-card {
+  margin: 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7);
+  transition: 0.3s;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+  color: white;
+  img {
+    height: 10vh;
+    margin-top: 4px;
+  }
+  ion-card-title {
+    padding: 0px 2px;
+    margin-bottom: 8px;
+    height: 5vh;
+    // position: absolute;
+    top: 0px;
+    color: white;
+    // background: rgb(255,255,255,.7);
+    width: 100%;
+    font-size: 1.2em;
+    color: white;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+  ion-icon {
+    margin-top: 20px;
+    font-size: 4.5em;
+  }
+}
+
+ion-content {
+  --background: #363c3f;
+}
+
+.unread {
+  background: red;
+  height: 1.8em;
+  width: 1.8em;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.7em;
+  border-radius: 50%;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  font-weight: bolder;
+}

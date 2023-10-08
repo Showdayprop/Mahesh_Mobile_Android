@@ -1,0 +1,63 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshChatList($event)">
+    <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh"
+      refreshingSpinner="crescent" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <!-- Skeleton Text -->
+  <div *ngIf="isLoading">
+    <ion-list>
+      <ion-item>
+        <!-- <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar> -->
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <!-- <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p> -->
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ion-list *ngIf="roomsList && roomsList.length>0; else elseBlock">
+    <ion-item *ngFor="let item of roomsList;index as i" (click)="chatDetail(item,i)" detail="false">
+      <ion-label>
+        <ion-badge color="primary" mode="ios" *ngIf="item.unread && item.unread!=0">{{item.unread}}
+        </ion-badge>
+        <h3>{{item.users | chatLabel:userData.id}}</h3>
+        <!-- <h3>{{item.room}}</h3> -->
+        <p
+          *ngIf="item.lastMessage?.msg && item.lastMessage?.user?.first_name && item.lastMessage?.user?.first_name != userData.first_name; else second">
+          {{item.lastMessage?.msg + ' by ' + item.lastMessage?.user?.first_name}}</p>
+        <ng-template #second>
+          <p *ngIf="item.lastMessage?.user?.first_name == userData.first_name; else third">{{item.lastMessage?.msg + '
+            by You'}}
+          </p>
+        </ng-template>
+        <ng-template #third>
+          <p *ngIf="!isLoading"><i>No Message</i></p>
+        </ng-template>
+        <p *ngIf="item.lastMessage?.createdAt" class="time">{{item.lastMessage.createdAt | timeago:live}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-template #elseBlock>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>No chats available.</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ng-template>
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="inviteUser()">
+      <ion-icon name="person-add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+</ion-content>

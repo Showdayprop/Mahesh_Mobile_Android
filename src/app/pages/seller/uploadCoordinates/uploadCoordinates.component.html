@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Location</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()" fill="clear" *ngIf="page !='service';else clearBtn">
+        Exit
+        <ion-icon slot="end" name="exit"></ion-icon>
+      </ion-button>
+      <ng-template #clearBtn>
+        <ion-button (click)="clear()" fill="clear">
+          Clear
+        </ion-button>
+      </ng-template>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row class="searchbar">
+    <ion-col size="">
+      <ion-searchbar [(ngModel)]="autocomplete.input" placeholder="Search for a place" (ionClear)="ClearAutocomplete()">
+      </ion-searchbar>
+    </ion-col>
+    <ion-col size="2" class="ion-align-self-center">
+      <ion-button (click)="UpdateSearchResults()" expand="block" fill="solid" class="ion-no-padding">
+        Go
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <!-- <ion-spinner slot="end" *ngIf="loadingSearchResults" name="crescent" color="primary"></ion-spinner> -->
+  <ion-list *ngIf="autocompleteItems?.length > 0" style="margin-bottom:0px;">
+    <ion-item *ngFor="let item of autocompleteItems" (click)="itemSelected(item)">
+      {{ item.formatted_address }}
+    </ion-item>
+  </ion-list>
+
+  <div class="map-wrapper">
+    <div id="map_center">
+      <ion-icon name="pin" size="large" color="danger"></ion-icon>
+      <!-- <img src="../assets/icon/location-marker.png" /> -->
+    </div>
+    <div #map id="map"></div>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3">
+        <b>Lattitude</b>
+      </ion-col>
+      <ion-col>
+        {{latitude}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="3">
+        <b>Longitude</b>
+      </ion-col>
+      <ion-col>
+        {{longitude}}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="page !='service'">
+      <ion-col size="3">
+        <b>Address</b>
+      </ion-col>
+      <ion-col>
+        {{address}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <form [formGroup]="locationForm" *ngIf="page !='service'">
+    <ion-item>
+      <ion-label position="stacked">Complex / Estate Name</ion-label>
+      <ion-input formControlName="complex_name" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">House Number</ion-label>
+      <ion-input formControlName="house_no" type="text"></ion-input>
+    </ion-item>
+  </form>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-no-padding">
+    <ion-button color="primary" expand="full" fill="solid" (click)="finish()"
+      [disabled]="!(latitude && longitude && areaName && countryCode)" *ngIf="page !='service'; else serviceFooter">
+      {{ page =='detailed' ? 'Save & Continue' : 'Finish'}}
+    </ion-button>
+    <ng-template #serviceFooter>
+      <ion-button color="primary" expand="full" fill="solid" (click)="saveCoordinates()">
+        Save Coordinates
+      </ion-button>
+    </ng-template>
+  </ion-toolbar>
+</ion-footer>

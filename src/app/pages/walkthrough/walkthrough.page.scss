@@ -1,0 +1,55 @@
+  ion-slides {
+    height: initial;
+  }
+
+  .slide-zoom {
+    height: 99vh;
+  }
+
+  .slide-title {
+    margin-top: 0;
+  }
+
+  .slide-image {
+    // max-height: 50%;
+    max-width: 128px !important;
+    margin: 0 0 18px;
+  }
+
+  .item-text {
+    font-size: 13px;
+  }
+
+  .swiper-slide {
+    text-align: left;
+  }
+    
+  .build-v{
+    font-size: 11px;
+    color: #524747;
+    font-style: italic;
+  }
+  .header-md:after{
+    height: 0px !important;
+  }
+  ion-list{
+    ion-label{
+      margin-left: 6px;
+    }
+  }
+  .buy-rent-section{
+    ion-col{
+      display:flex;
+      align-items: center;
+      font-size: 2em;
+      ion-checkbox{
+        --size:35px;
+        margin-right: 7%;
+      }
+    }
+  }
+  .show-me-button{
+    width: 55%;
+    margin:auto;
+    
+  }

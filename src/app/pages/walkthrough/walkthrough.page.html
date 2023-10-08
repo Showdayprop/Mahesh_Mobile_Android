@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar style="--border-color:white;">
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding animated fadeIn login auth-page" fullscreen="true">
+  <!-- Logo -->
+  <!-- <div class="ion-padding-horizontal ion-margin-bottom ion-text-center animated fadeInDown">
+    <div class="logo"></div>
+  </div> -->
+
+  <div class="ion-padding">
+    <h3 class="slide-title text-dark animated fadeIn">Features and Benefits</h3>
+    <ion-text class="item-text">
+      Drive thru to properties including Call to Show. Configure the portal Filter to receive realtime alerts on your
+      mobile for properties On Show.
+      <br><br>
+      Let your dream home find you. Get yourself moving in the right direction. Finding your dream home just got easier.
+    </ion-text>
+    <br><br>
+    <ion-text class="item-text">
+      <h5>Please select your role type below. You may edit your role in your personal profile.</h5>
+    </ion-text>
+  </div>
+  <!-- <ion-row class="buy-rent-section">
+    <ion-col size="6" class="ion-justify-content-center">
+      <ion-checkbox mode="ios" color="primary" value="1" (ionChange)="roleOptionChecked($event)"></ion-checkbox>
+      <ion-label>BUY</ion-label>
+    </ion-col>
+    <ion-col size="6" class="ion-justify-content-center">
+      <ion-checkbox mode="ios" color="primary" value="4" (ionChange)="roleOptionChecked($event)"></ion-checkbox>
+      <ion-label>Rent</ion-label>
+    </ion-col>
+  </ion-row> -->
+  <div>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="key"></ion-icon>
+        <ion-label>
+          <strong>Seller </strong>or
+          <strong> Landlord </strong>or
+          <strong> Agent</strong>
+        </ion-label>
+        <ion-toggle value="sell" (ionChange)="roleOptionChecked($event)"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="cart"></ion-icon>
+        <ion-label>Buy</ion-label>
+        <ion-toggle value="1" (ionChange)="roleOptionChecked($event)"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person" mode="ios"></ion-icon>
+        <ion-label>Rent</ion-label>
+        <ion-toggle value="4" (ionChange)="roleOptionChecked($event)"></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ion-row class="show-me-button">
+    <ion-col size="12">
+      <ion-button expand="full" shape="round" color="primary" class="ion-margin-top ion-margin-bottom"
+        (click)="showMe()" [disabled]="myRoles.length==0">
+        Show Me
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <div class="ion-text-center build-v">
+    Build Version: v{{version}}
+  </div>
+</ion-content>

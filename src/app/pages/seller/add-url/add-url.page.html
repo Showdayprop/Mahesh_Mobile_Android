@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add URL</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()" fill="clear">
+        Exit
+        <ion-icon slot="end" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="externalURL">
+    <ion-item>
+      <ion-label position="stacked">URL <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required formControlName="url" type="text"></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.url">
+      <div class="error-message" *ngIf="externalURL.get('url').hasError(validation.type) && (externalURL.get('url').touched || externalURL.get('url').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Category <ion-text color="danger">*</ion-text></ion-label>
+      <ion-select formControlName="requirement" interface="popover" placeholder="Select One">
+        <ion-select-option *ngFor="let req of requirements" value="{{req.name}}">{{req.name|titlecase}}</ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Type of Property <ion-text color="danger">*</ion-text></ion-label>
+      <ion-select formControlName="house_type" interface="popover" placeholder="Select One">
+        <ion-select-option *ngFor="let house_types of houseTypes" value="{{house_types.name}}">{{house_types.name|titlecase}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="property">
+      <ion-label position="stacked">Location</ion-label>
+      <ion-input readonly *ngIf="property?.area">{{property?.area}}, {{property?.city}}</ion-input>
+      <ion-input readonly *ngIf="!property?.area">Pending Maps Info</ion-input>
+    </ion-item>
+
+    <!-- <ion-item>
+      <ion-label>Minimum Price</ion-label>
+      <ion-select formControlName="minimum_price" interface="popover" (ionChange)="priceSelected('min',$event)">
+        <ion-select-option value="">Any</ion-select-option>
+        <ion-select-option *ngFor="let minPrice of priceOpts | slice:0:minPriceSliceEndIndex" value="{{minPrice.value}}">{{minPrice.text}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.minimum_price">
+      <div class="error-message" *ngIf="externalURL.get('minimum_price').hasError(validation.type) && (externalURL.get('minimum_price').touched || externalURL.get('minimum_price').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label>Maximum Price</ion-label>
+      <ion-select formControlName="maximum_price" interface="popover" (ionChange)="priceSelected('max',$event)">
+        <ion-select-option value="">Any</ion-select-option>
+        <ion-select-option *ngFor="let maxPrice of priceOpts | slice:maxPriceSliceStartIndex+1" value="{{maxPrice.value}}">{{maxPrice.text}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.maximum_price">
+      <div class="error-message" *ngIf="externalURL.get('maximum_price').hasError(validation.type) && (externalURL.get('maximum_price').touched || externalURL.get('maximum_price').dirty)">
+        {{ validation.message }}
+      </div>
+    </div> -->
+    <ion-item>
+      <ion-label position="stacked">Minimum Price <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input #min required formControlName="minimum_price" 
+        (ionInput)="min.value = format($event)" type="text" maxlength="15" inputmode="numeric"></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.minimum_price">
+      <div class="error-message" *ngIf="externalURL.get('minimum_price').hasError(validation.type) && (externalURL.get('minimum_price').touched || externalURL.get('minimum_price').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Maximum Price</ion-label>
+      <ion-input #max formControlName="maximum_price" 
+        (ionInput)="max.value = format($event)" type="text" maxlength="15" inputmode="numeric"></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.maximum_price">
+      <div class="error-message" *ngIf="externalURL.get('maximum_price').hasError(validation.type) && (externalURL.get('maximum_price').touched || externalURL.get('maximum_price').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Minimum Bedrooms <ion-text color="danger">*</ion-text></ion-label>
+      <ion-select formControlName="bedrooms" interface="popover" placeholder="Select One">
+        <ion-select-option *ngFor="let bedroom of roomsConfig" value="{{bedroom.id}}">{{bedroom.label}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Minimum Bathrooms <ion-text color="danger">*</ion-text></ion-label>
+      <ion-select formControlName="bathrooms" interface="popover" placeholder="Select One">
+        <ion-select-option *ngFor="let bathroom of roomsConfig" value="{{bathroom.id}}">{{bathroom.label}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </form>
+  <app-showdays-capture [existingShowdays]="property?.showdays" (showdayUpdated)="capturedShowdays($event)"></app-showdays-capture>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [disabled]="!externalURL.valid || showdays.length==0 || showdays[0]?.startDate =='' || showdays[0]?.startTime =='' || showdays[0]?.endDate =='' || showdays[0]?.endTime ==''" color="primary" expand="full" fill="solid" (click)="proceed()">
+      Proceed
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,27 @@
+:host {
+  ion-item {
+    font-size: 13px;
+  }
+
+  h5{
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .input-fullwidth{
+    width: 100%;
+  }
+
+  .input-field-width{
+    width: 150px;
+  }
+}
+ion-footer{
+  .footer-button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+    font-size: 20px;
+  }
+}

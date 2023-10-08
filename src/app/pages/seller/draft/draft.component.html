@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-refresher slot="fixed" closeDuration="300ms" pullMin="60" snapbackDuration="200ms" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-down"
+      pullingText="Pull to refresh"
+      refreshingSpinner="crescent"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div *ngFor="let property of properties;">
+    <app-property-item [property]="property" [userSettings]="userSettings" [page]="'seller'"
+      (deleteProperty)="deleteProperty($event)"
+      (editProperty)="editProperty($event)"
+      (openDetail)="propertyDetail($event)"></app-property-item>
+  </div>
+  <ion-infinite-scroll threshold="300px" (ionInfinite)="loadData($event)" disabled="true">
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Loading more Showdays...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

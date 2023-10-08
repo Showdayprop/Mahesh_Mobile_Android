@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" color="secondary" class="close-icon" (click)="dismissModal()" slot="start"></ion-icon>
+    </ion-buttons>
+    <ion-title>Create</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="dark-theme">
+<ion-item lines="none" style="--padding-start: 0px;">
+  <ion-searchbar debounce="200" [(ngModel)]="searchKey" placeholder="Search for Area Name" (ionChange)="search($event)">
+  </ion-searchbar>
+</ion-item>
+<div *ngIf="selectedAreas">
+  <ion-chip color="secondary">
+    <ion-icon name="pin"></ion-icon>
+    <ion-label>{{ selectedAreas?.area +', '+ selectedAreas?.city}}</ion-label>
+    <ion-icon name="close-circle" (click)="selectedAreas = null"></ion-icon>
+  </ion-chip>
+</div>
+<form [formGroup]="form" class="list-form">
+  <ion-list lines="none">
+    <ion-item class="border">
+      <ion-label position="stacked">Title <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required formControlName="title" type="text"></ion-input>
+    </ion-item>
+    <ion-item class="border">
+      <ion-label position="stacked">Listed On
+      </ion-label>
+      <ion-datetime formControlName="listed_on" [max]="maxDate" [min]="minDate" display-format="YYYY-MM-DD" placeholder="Select">
+      </ion-datetime>
+    </ion-item><ion-item class="border">
+      <ion-label position="stacked">Initial Price
+      </ion-label>
+      <ion-input #init (ionInput)="init.value = common.format($event)" inputmode="numeric" formControlName="initial_price" type="text"></ion-input>
+    </ion-item><ion-item class="border">
+      <ion-label position="stacked">Lowest Price
+      </ion-label>
+      <ion-input #low (ionInput)="low.value = common.format($event)" inputmode="numeric" formControlName="lowest_price" type="text"></ion-input>
+    </ion-item>
+    <ion-item class="border">
+      <ion-label position="stacked">SQM Undercover
+      </ion-label>
+      <ion-input formControlName="sqm_undercover" type="number"></ion-input>
+    </ion-item>
+    <ion-item class="border">
+      <ion-label position="stacked">Levies
+      </ion-label>
+      <ion-input #levies (ionInput)="levies.value = common.format($event)" inputmode="numeric" formControlName="levies"
+        type="text"></ion-input>
+    </ion-item>
+    <ion-item class="border">
+      <ion-label position="stacked">Property Reference #
+      </ion-label>
+      <ion-input formControlName="ref_no" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Sold</ion-label>
+      <ion-toggle slot="start" formControlName="sold"></ion-toggle>
+    </ion-item>
+    <ion-item class="border">
+      <ion-label position="stacked">Sold On
+      </ion-label>
+      <ion-datetime formControlName="sold_on" [max]="maxDate" [min]="minDate" display-format="YYYY-MM-DD"
+        placeholder="Select">
+      </ion-datetime>
+    </ion-item>
+  </ion-list>
+</form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start" style="width: 100%;">
+      <ion-button (click)="save()" expand="full" style="width: 100%;" [disabled]="form.invalid">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

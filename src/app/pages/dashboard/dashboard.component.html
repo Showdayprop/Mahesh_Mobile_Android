@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+      <ion-back-button *ngIf="!isDash" defaultHref="/dashboard/categories" mode="ios" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-searchbar (ionFocus)="searchFocus()" (ionChange)="searchInput($event)" debounce="1000"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollY="false" scrollX="false" forceOverscroll="false">
+  <ion-router-outlet></ion-router-outlet>
+</ion-content>

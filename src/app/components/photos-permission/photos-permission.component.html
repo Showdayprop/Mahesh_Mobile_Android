@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center">
+    <ion-title>Gallery Access</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollX='false' scrollY="false">
+  <ion-row>
+    <img src="/assets/img/photo_alert.png">
+  </ion-row>
+  <ion-row>
+    <h3 class="ion-margin-horizontal ion-text-center">On the next popup, please choose 'Allow Access to
+      All Photos' to ensure you can upload images for the services that you create.</h3>
+  </ion-row>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="dismiss()" fill="solid" shape="round" expand="full" color="primary">
+        Ok, I Understand
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

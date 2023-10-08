@@ -1,0 +1,26 @@
+// ion-content{
+//     --background:#0c1118;
+//     ion-item{
+//         color: white;
+//     }
+//     ion-row{
+//         color: white;
+//     }
+// }
+.remove-img{
+    position: absolute;
+    color: white;
+    top: 5px;
+    right: 5px;
+    text-align: right;
+    padding: 15px;
+    ion-icon{
+        color: red;
+        font-size: 2em;
+    }
+}
+ion-footer{
+    ion-button{
+        margin:auto;
+    }
+}

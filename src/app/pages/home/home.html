@@ -1,0 +1,177 @@
+<!-- -->
+<ion-header>
+  <ion-toolbar color="medium" class="animated fadeIn">
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+      <ion-icon name="arrow-back" color="secondary" class="back-icon" [routerLink]="['/dashboard/categories']"
+        routerDirection="root"></ion-icon>
+    </ion-buttons>
+    <!-- <ion-title slot="start"> -->
+    <ion-label color="light" class="title">{{ (userMgmtSrvc.isOnlyRentProperties | async)?'For Rent':'For Sale'}}
+    </ion-label>
+    <!-- </ion-title> -->
+    <ion-label class="ion-float-end near-me">Near Me</ion-label>
+    <ion-toggle (ionChange)="nearMeToggled()" [(ngModel)]="nearMeToggle" slot="end"></ion-toggle>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="12" style="text-align: center;">
+      <ion-chip color="dark">
+        <ion-label color="dark" *ngIf="!userSettings?.nearMeToggle && !userSettings?.filtersActive">Featured Listings
+        </ion-label>
+        <ion-label color="dark" *ngIf="userSettings?.nearMeToggle && !userSettings?.filtersActive">Near Me</ion-label>
+        <ion-label color="dark" *ngIf="userSettings?.filtersActive">Filtered</ion-label>
+        <ion-label color="dark">&nbsp;{{ (userMgmtSrvc.isOnlyRentProperties | async)?'For Rent':'For Sale'}}</ion-label>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+  <ion-refresher slot="fixed" closeDuration="300ms" pullMin="160" snapbackDuration="200ms"
+    (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-down" pullingText="Pull to refresh" refreshingSpinner="crescent"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <!-- <div class="refresh-icon" *ngIf="hasFilterSet">
+    <a (click)="refreshShowdays()"><ion-icon name="md-refresh-circle" [ngClass]="{'spin-icon': isRefreshing}"></ion-icon> <ion-text [ngClass]="{'spin-icon-text': isRefreshing}" class="ion-padding-vertical">Sync now</ion-text></a>
+  </div> -->
+  <!--list menu on the top-->
+  <div *ngFor="let property of properties;" tappable>
+    <app-property-item [property]="property" [userSettings]="userSettings" (openDetail)="propertyDetail($event)">
+    </app-property-item>
+  </div>
+  <div class="showday-card-wrapper ion-no-margin">
+    <!-- <ion-card class="opt-card bg-white" *ngIf="properties.length > 0">
+      <ion-card-content class="card-background-page">
+        <div *ngFor="let property of properties; let last=last" tappable (click)="propertyDetail(property)">
+          <div><strong>{{property.property_name|truncate:35}}</strong></div>
+          <div class="price-holder">
+            <ion-text *ngIf="property.bottom_price_value">{{property.currency}}{{property.bottom_price_value}}</ion-text>  
+            <ion-text *ngIf="property.middle_price_value">{{property.currency}}{{property.middle_price_value}}</ion-text> 
+            <ion-text *ngIf="property.upper_price_value">{{property.currency}}{{property.upper_price_value}}</ion-text>
+          </div>
+          <ion-card class="ion-no-margin property-image-card">
+            <img *ngIf="property.default_pic" src="{{property.image_full_path}}">
+            <img *ngIf="!property.default_pic" src="../assets/img/nophoto.png">
+            <ion-icon *ngIf="(!userSettings?.nearMeToggle && !userSettings?.filtersActive) || property?.featured==1 || property?.featured?.is_featured ==1" name="star" mode="ios"></ion-icon>
+          </ion-card>
+          <ion-text>
+            {{property?.area}}, {{property?.city}}
+          </ion-text>
+          <ion-text class="ion-float-start">
+            <ion-label class="time-left-label">Starting on</ion-label>
+            <div class="remaining-days">{{property?.showdays[0]?.showday_from | formatDate}}</div>
+          </ion-text>
+          <ion-text class="ion-float-start">
+            <ion-label class="time-left-label">Ending on</ion-label>
+            <div class="remaining-days">{{property?.showdays[0]?.showday_to | formatDate}}</div>
+          </ion-text>
+          <ion-text class="ion-float-end">
+            <ul class="amenities">
+              <li *ngIf="property.num_bedroom > 0"><ion-img style="width:25px; height:16px" src="../assets/icons/bedroom_icon.png"></ion-img></li>
+              <li *ngIf="property.num_bedroom > 0">{{property.num_bedroom}}</li>
+              <li *ngIf="property.num_bathroom > 0"><ion-img style="width:25px; height:16px" src="../assets/icons/bathroom_icon.png"></ion-img></li>
+              <li *ngIf="property.num_bathroom > 0">{{property.num_bathroom}}</li>
+              <li *ngIf="property.num_bathroom > 0"><ion-img style="width:25px; height:16px" src="../assets/icons/car_parking_icon.png"></ion-img></li>
+              <li *ngIf="property.num_bathroom > 0">{{property.num_bathroom}}</li>
+            </ul>
+            <div class="ion-float-end">
+              <span class="ref-label">Ref#:</span> <span class="ref-value">{{property.id}}</span>
+            </div>
+          </ion-text>
+          <ion-item-divider *ngIf="!last"></ion-item-divider>
+        </div>
+      </ion-card-content>
+    </ion-card> -->
+
+    <!-- Skeleton screen -->
+    <ion-card mode="ios" *ngIf="!isLoaded">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+        </ion-card-title>
+        <ion-card-subtitle class="price-holder">
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-row>
+          <ion-col size="12" class="property-image-card">
+            <ion-img>
+              <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+            </ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-thumbnail slot="start" style="margin-left: 2%;">
+          <ion-skeleton-text></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-row>
+          <ion-col class="time-left-label ion-text-center" size="6">
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </ion-col>
+          <ion-col class="time-left-label ion-text-center" size="6">
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="remaining-days ion-text-center" size="6">
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </ion-col>
+          <ion-col class="remaining-days ion-text-center" size="6">
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+        <ion-row style="margin-bottom: 2%;">
+          <ion-col size="6">
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </ion-col>
+          <ion-col style="margin: auto;" size="6" class="ion-text-end">
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="opt-card bg-white information-box" *ngIf="!properties.length && isLoaded">
+      <ion-card-content class="card-background-page">
+        <ion-icon class="large-icon" name="information-circle"></ion-icon>
+        <br>
+        <div>No Properties Available{{ userSettings?.filtersActive ? ' for the Filters' : '' }}.</div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="opt-card bg-white information-box" *ngIf="!hasFilterSet">
+      <ion-card-content class="card-background-page">
+        <ion-icon class="large-icon" name="information-circle"></ion-icon>
+        <br>
+        <div>Click on 'Filters' below (<ion-icon name="thumbs-down"></ion-icon>) to set the property filters.</div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openFilters()">
+      <!-- <div> -->
+      <ion-icon name="funnel"></ion-icon>
+      <ion-label>Filter</ion-label>
+      <!-- </div> -->
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll threshold="300px" (ionInfinite)="loadData($event)" disabled="true">
+    <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more Showdays...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+<!-- <ion-footer>
+  <ion-toolbar color="medium" (click)="openFilters()">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="4"></ion-col>
+        <ion-col size="4" class="footer-button">
+          <ion-icon name="funnel"></ion-icon>
+          <ion-label>Filters</ion-label>
+        </ion-col>
+        <ion-col size="4"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer> -->

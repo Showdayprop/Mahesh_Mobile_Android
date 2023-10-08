@@ -1,0 +1,35 @@
+.searchbar {
+  --background: #0c1118;
+  padding: 0px;
+  ion-searchbar {
+    --background: white;
+    padding: 0px 2px 0px 2px;
+  }
+  ion-button {
+    height: 36px;
+  }
+}
+ion-content {
+  ion-list {
+    margin: 0px;
+    padding: 0px;
+    --background: #363c3f;
+    ion-item-sliding {
+      background: black;
+    }
+    ion-item {
+      color: white;
+      --background: #0c1118;
+      --border-color: white;
+      ion-label {
+        h2 {
+          font-weight: 600;
+        }
+        p {
+          color: #ffffff94;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}

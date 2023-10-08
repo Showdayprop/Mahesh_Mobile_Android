@@ -1,0 +1,25 @@
+.box {
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  height: 20px;
+  width: 40px;
+  border: 1px solid black;
+  clear: both;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+ion-radio {
+  margin-bottom: 5px;
+}

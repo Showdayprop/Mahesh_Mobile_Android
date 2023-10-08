@@ -1,0 +1,90 @@
+<!-- <ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-icon name="arrow-back" (click)="navigateBack()" class="close-icon" slot="start"></ion-icon>
+  </ion-buttons>
+  <ion-title>Available Service Providers</ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="selectEstate()" expand="block" fill="solid" shape="" slot="end" style="margin:auto;">
+      Near Me
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar> -->
+<!-- <ion-toolbar> -->
+
+<!-- </ion-toolbar> -->
+<ion-content scrollY="false" scrollX="false" forceOverscroll="false">
+  <ion-chip (click)="showkeys = !showkeys">
+    <ion-icon name="information-circle-outline"></ion-icon>
+  </ion-chip>
+  <div id="keys" *ngIf="showkeys">
+    <ion-row>
+      <ion-col size="2">
+        <ion-img src="assets/icons/bluepointer3f.png"></ion-img>
+      </ion-col>
+      <ion-col size="10" class="ion-align-self-center">
+        Area Marker
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="2">
+        <ion-img src="assets/icons/redpointer3f.png"></ion-img>
+      </ion-col>
+      <ion-col size="10" class="ion-align-self-center">
+        Estate Marker
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="2">
+        <ion-img src="assets/icons/greenpointer3f.png"></ion-img>
+      </ion-col>
+      <ion-col size="10" class="ion-align-self-center">
+        Shop Marker
+      </ion-col>
+    </ion-row>
+  </div>
+  <div id="mapId"></div>
+  <div *ngIf="isLoading" class="spinner" style="text-align: center;">
+    <ion-spinner slot="end" name="crescent" color="primary"></ion-spinner>
+  </div>
+  <ion-slides [options]="slideOpts" #slides pager="true" *ngIf="list && list.length>0">
+    <ion-slide *ngFor="let item of list">
+      <ion-card (click)="openProviderDetailModal(item)">
+        <ion-card-header>
+          <ion-card-title *ngIf="item.affiliate_name" class="ion-text-start">{{item.affiliate_name}}<ion-icon
+              name="arrow-dropright" class="ion-float-end" style="margin-top: 3px;"></ion-icon>
+          </ion-card-title>
+          <ion-card-subtitle *ngIf="item.address">Address : {{item.address}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p *ngIf="item.about_me">{{item.about_me}}</p>
+          <a *ngIf="item.contact_number" style="font-size: 1.6em;
+          font-weight: bolder;"
+            (click)="common.confirmToCall(item.contact_number);$event.stopPropagation()">{{item.contact_number |
+            formatNumber}}
+          </a>
+          <p *ngIf="item.email_address && item.email_address!='support@showday.com'">{{item.email_address}}</p>
+          <p *ngIf="item.first_name || item.surname">{{item.first_name + ' '}}
+            {{ item.surname ? item.surname : ''}} </p>
+          <p *ngIf="item.service_cats && item.service_cats.length>0"><b>Services Offered:
+            </b>{{item.service_cats.join(', ')}}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+  </ion-slides>
+  <!-- Add Pagination -->
+  <!-- <div class="swiper-pagination"></div> -->
+  <!-- <ion-list style="margin-top: 45vh;">
+    <ion-card *ngFor="let item of list" (click)="directorySrvc.openProviderDetailModal(item)">
+      <ion-card-header>
+        <ion-card-title>{{item.affiliate_name}}</ion-card-title>
+        <ion-card-subtitle>Address : {{item.address}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="item.services && item.services?.length>0">
+        Categories: <span *ngFor="let cat of item.services">{{cat?.service_type}},&nbsp;</span>
+      </ion-card-content>
+    </ion-card>
+  </ion-list> -->
+</ion-content>

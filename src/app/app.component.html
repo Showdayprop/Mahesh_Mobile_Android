@@ -1,0 +1,144 @@
+<ion-app>
+  <ion-split-pane contentId="menu-content">
+
+    <ion-menu contentId="menu-content" style="--max-width:65vw" swipeGesture="true">
+
+      <ion-header>
+        <ion-toolbar color="dark" class="user-profile">
+
+          <ion-item class="ion-margin-bottom">
+            <ion-label>
+              <ion-text color="light">
+                <h1>
+                  <strong>Hello{{userData?.isLoggedIn && userData?.first_name ? ', ' + userData['first_name'] :
+                    ''}}</strong>
+                </h1>
+              </ion-text>
+              <ion-menu-toggle class="mto" auto-hide="false">
+
+                <a class="text08" tappable (click)="goToEditProgile()" *ngIf="userData?.isLoggedIn">
+                  <ion-text color="light">
+                    <ion-icon name="contact"></ion-icon>
+                    <strong>Profile</strong>
+                  </ion-text>
+                  <ion-text color="secondary"> | </ion-text>
+                </a>
+
+                <a *ngIf="userData?.isLoggedIn" class="text08" tappable (click)="logout()">
+                  <ion-text color="light">
+                    <ion-icon name="log-out"></ion-icon>
+                    <strong>Logout</strong>
+                  </ion-text>
+                </a>
+                <a *ngIf="!userData?.isLoggedIn" class="text08" tappable (click)="login()">
+                  <ion-text color="light">
+                    <ion-icon name="log-out"></ion-icon>
+                    <strong>Login / Sign Up</strong>
+                  </ion-text>
+                </a>
+              </ion-menu-toggle>
+              <ion-text color="light" *ngIf="currentUserLocation?.subLocality || currentUserLocation?.locality">
+                <p><em class="text08">{{currentUserLocation?.subLocality}}, {{currentUserLocation?.locality}}</em></p>
+              </ion-text>
+            </ion-label>
+          </ion-item>
+
+        </ion-toolbar>
+      </ion-header>
+      <ion-content color="#ffffff">
+        <ion-list>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item (click)="navCtrl.navigateRoot('/dashboard/categories')" detail="false" lines="none">
+              <ion-icon slot="start" name="at"></ion-icon>
+              <ion-label>
+                Service Categories
+              </ion-label>
+            </ion-item>
+            <ion-item (click)="postService()" detail="false" lines="none">
+              <ion-icon slot="start" name="cart"></ion-icon>
+              <ion-label>
+                Post/Manage Services
+              </ion-label>
+            </ion-item>
+            <!-- <ion-item *ngIf="isSeller" (click)="sell()" detail="false" lines="none">
+              <ion-icon slot="start" name="list-box"></ion-icon>
+              <ion-label>
+                Manage Listings
+              </ion-label>
+            </ion-item> -->
+            <ion-item *ngFor="let p of appPages" [routerLink]="[p.url]" [queryParams]="p.queryParams"
+              [disabled]="p.disabled" detail="false" lines="none">
+              <ion-icon slot="start" name="{{p.icon}}"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+              <ion-badge *ngIf="p.url=='/notifications'" color="dark" slot="end">
+                {{ notificationSrvc.notificationCount | async }}</ion-badge>
+            </ion-item>
+
+            <ng-container *ngIf="userData?.account_type == 'employee' || userData?.myRoles?.indexOf('2')>-1 || userData?.myRoles?.indexOf('3')>-1 || userData?.myRoles?.indexOf('5')>-1">
+              <ion-item (click)="goToListings()" detail="false" lines="none">
+                <ion-icon slot="start" name="at"></ion-icon>
+                <ion-label>
+                  Listings
+                </ion-label>
+              </ion-item>
+              <ion-item [routerLink]="['/tracker']" routerDirection="root" detail="false" lines="none">
+                <ion-icon slot="start" name="list-box"></ion-icon>
+                <ion-label>
+                  Tracker
+                </ion-label>
+              </ion-item>
+            </ng-container>
+            <ion-item (click)="searchByRef()" detail="false" lines="none">
+              <ion-icon slot="start" name="search"></ion-icon>
+              <ion-label>
+                Search By Ref#
+              </ion-label>
+            </ion-item>
+            <ion-item (click)="deviceLogs()" detail="false" lines="none" *ngIf="globalConfigSrvc.showLogs">
+              <ion-icon slot="start" name="search"></ion-icon>
+              <ion-label>
+                Device Logs
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-item (click)="viewSupport()" detail="false" lines="none">
+            <ion-icon slot="start" name="at"></ion-icon>
+            <ion-label>
+              Contact Us
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+      <ion-toolbar class="version-toolbar">
+        {{utilityService.updateProgress$ | async}}
+        <ion-row class="ion-align-items-center">
+          <ion-col size="">
+            <ion-title class="ion-text-center">{{version}}</ion-title>
+          </ion-col>
+          <ion-col size="" *ngIf="appUpdatePending">
+            <ion-button (click)="promptForUpdate()" size="small" fill="solid">
+              Update App Ver.
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-toolbar>
+      <ion-footer>
+        <!-- <ion-toolbar *ngIf="isUpdateAvailable && updateProgress">
+        {{updateProgress == 100 ? 'App is updated #'+info?.versionId : 'Updating the app '+updateProgress+' %'}}
+        </ion-toolbar> -->
+        <ion-toolbar style="--border-width: 0px;">
+          <ion-buttons slot="start" class="ion-page">
+            <ion-button (click)="share()" expand="block" fill="solid" style="margin:auto; --background: #b3121796;">
+              Share App With Friends
+            </ion-button>
+          </ion-buttons>
+          <!-- <div style="text-decoration: underline; font-size:1em; text-align:center;">Share With Friends & Family</div> -->
+        </ion-toolbar>
+      </ion-footer>
+    </ion-menu>
+    <ion-router-outlet id="menu-content"></ion-router-outlet>
+
+  </ion-split-pane>
+</ion-app>

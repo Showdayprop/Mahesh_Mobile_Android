@@ -1,0 +1,47 @@
+.showday{
+    ion-icon{
+        font-size: 2.3em;
+        padding-right: 10px;
+    }
+    color:black;
+    padding-bottom: 20px;
+}
+ion-card{
+    overflow: inherit;
+    ion-card-content{
+        padding: 4px;
+        ion-col{
+            color: black;
+            padding-top: 3px;
+        }
+        ion-datetime{
+            color: black;
+        }
+        .picker{
+            .icon{
+                padding: 0px !important;
+                ion-icon{
+                    color: grey;
+                }
+            }
+        }
+    }
+    ion-card-header{
+        position: fixed;
+        padding: 0px;
+        ion-icon{
+            color: white;
+            font-size: 2em;
+            position: relative;
+            float: right;
+            left: -13px;
+            top: -10px;
+            z-index: 10;
+        }
+    }
+}
+.delete-showday{
+    border-radius: 50%;
+    border: 1px solid;
+    background-color: red;
+}

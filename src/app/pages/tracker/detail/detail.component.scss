@@ -1,0 +1,30 @@
+ion-header {
+  ion-toolbar {
+    font-size: 2em;
+    .share-icon {
+      margin-right: 10px;
+    }
+  }
+}
+ion-content {
+  ion-grid {
+    color: white;
+    .gallery {
+      margin-top: 10px;
+      ion-col {
+        // height: 26vw;
+        // display: flex;
+        .remove-button {
+          position: relative;
+          bottom: 3px;
+          right: 0px;
+          font-size: 1.4em;
+          font-weight: 700;
+          background: #ff000069;
+          padding: 1px;
+          border-radius: 0px 0px 10px 10px;
+        }
+      }
+    }
+  }
+}

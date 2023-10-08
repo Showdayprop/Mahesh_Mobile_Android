@@ -1,0 +1,359 @@
+<ion-header>
+  <ion-toolbar style="--border-color:#363c3f;">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="!SocialIdResult">
+      <ion-button (click)="skip()" expand="block" fill="clear" shape="round">
+        Skip
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="login auth-page">
+  <div class="auth-content">
+    <ion-segment [(ngModel)]="authSegment" color="tertiary">
+      <ion-segment-button value="login">
+        <ion-label>Login</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="register">
+        <ion-label>Sign Up</ion-label>
+      </ion-segment-button>
+      <!-- <ion-segment-button value="register_serivce_provider" *ngIf="queryParam">
+        <ion-label>Sign Up</ion-label>
+      </ion-segment-button> -->
+    </ion-segment>
+
+    <div [ngSwitch]="authSegment">
+      <div *ngSwitchCase="'login'">
+        <!-- Login form -->
+        <form [formGroup]="onLoginForm" class="list-form">
+          <ion-list lines="none">
+            <ion-item class="border">
+              <ion-label position="stacked">Login/Email <span class="form-error">*</span></ion-label>
+              <ion-input formControlName="login_username" type="text" autofocus="true"></ion-input>
+              <!-- <mat-form-field class="full-width">
+                <mat-label>Login/Email <span class="form-error">*</span></mat-label>
+                <input matInput formControlName="login_username" type="text">
+              </mat-form-field> -->
+            </ion-item>
+            <ion-item class="border">
+              <ion-label position="stacked">Password <span class="form-error">*</span></ion-label>
+              <ion-input formControlName="password" [type]="lgnHide ? 'password' : 'text'">
+              </ion-input>
+              <ion-icon slot="end" [name]="lgnHide ? 'eye' : 'eye-off'" (click)="lgnHide = !lgnHide"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="lgnHide"></ion-icon>
+              <!-- <mat-form-field class="full-width">
+                <mat-label position="floating">Password <span class="form-error">*</span></mat-label>
+                <input matInput formControlName="password" [type]="lgnHide ? 'password' : 'text'">
+                <button type="button" mat-icon-button matSuffix (click)="lgnHide = !lgnHide"
+                  [attr.aria-label]="'Hide password'" [attr.aria-pressed]="lgnHide">
+                  <mat-icon>{{lgnHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              </mat-form-field> -->
+            </ion-item>
+          </ion-list>
+        </form>
+        <!--
+        <p tappable (click)="forgotPass()" class="ion-text-right paz">
+          <ion-text color="tertiary">
+            <strong>Forgot Password?</strong>
+          </ion-text>
+        </p>
+      -->
+        <div class="ion-margin-top">
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="doLogin()"
+            [disabled]="!onLoginForm.valid" tappable>
+            <ion-icon name="log-in"></ion-icon>
+            Sign in
+          </ion-button>
+        </div>
+        <ion-row style="padding-top: 3%;">
+          <ion-col class="ion-text-end" size="12" (click)="forgotPassword()">Forgot Password?</ion-col>
+        </ion-row>
+        <!-- <div class="ion-margin-top">
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="signInSocialMedia('Google')"
+            tappable>
+            <ion-icon name="logo-google"></ion-icon>
+            Sign in with google
+          </ion-button>
+        </div>
+        <div class="ion-margin-top">
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="signInSocialMedia('Facebook')"
+            tappable>
+            <ion-icon name="logo-facebook"></ion-icon>
+            Sign in with facebook
+          </ion-button>
+        </div>
+        <div class="ion-margin-top" *ngIf="this.platform.is('ios')">
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="openAppleSignIn()"
+            tappable>
+            <ion-icon name="logo-apple"></ion-icon>
+            Sign in with apple
+          </ion-button>
+        </div> -->
+        <ion-row class="ion-justify-content-center social-profile">
+          Login with your Social Profile
+        </ion-row>
+        <ion-row class="ion-justify-content-center" style="margin-top: 40px;">
+            <ion-fab-button color="light" style="margin-right: 15px;" (click)="signInSocialMedia('Google')">
+              <img src="assets/img/google.png">
+            </ion-fab-button>
+            <ion-fab-button style="margin-left: 15px; margin-right: 15px;" (click)="signInSocialMedia('Facebook')">
+              <img src="assets/img/facebook.png">
+            </ion-fab-button>
+            <ion-fab-button color="light" style="margin-left: 15px;" *ngIf="this.platform.is('ios')" (click)="openAppleSignIn()">
+              <img src="assets/img/apple.png">
+            </ion-fab-button>
+        </ion-row>
+      </div>
+
+      <div *ngSwitchCase="'register'">
+        <!-- Register form -->
+        <ion-item class="border" lines="none">
+          <span class="checkbox-label">Are you a service provider?</span>
+          <ion-checkbox slot="end" [(ngModel)]="isProvider" (change)="serviceProviderCheckBox($event)"></ion-checkbox>
+
+        </ion-item>
+        <form [formGroup]="onRegisterForm" class="list-form">
+          <ion-list lines="none">
+            <ion-list-header>
+              <ion-label>Personal Information</ion-label>
+            </ion-list-header>
+            <ion-item class="border">
+              <ion-label position="stacked">First Name <span class="form-error">*</span></ion-label>
+              <ion-input formControlName="first_name" type="text" autofocus="true"></ion-input>
+              <!-- <mat-form-field class="full-width">
+                <mat-label>First Name <span class="form-error">*</span></mat-label>
+                <input matInput formControlName="first_name" type="text">
+              </mat-form-field> -->
+            </ion-item>
+            <div class="label-error-text" *ngIf="getSignupForm.first_name.touched && getSignupForm.first_name.errors">
+              <ion-text color="danger" *ngIf="getSignupForm.first_name.errors.required">Required</ion-text>
+              <ion-text color="danger" *ngIf="getSignupForm.first_name.errors.minlength">Minimum 3 characters required
+              </ion-text>
+            </div>
+            <ion-item class="border">
+              <ion-label position="stacked">Surname</ion-label>
+              <ion-input formControlName="surname" type="text"></ion-input>
+              <!-- <mat-form-field class="full-width">
+                <mat-label>Surname</mat-label>
+                <input matInput formControlName="surname" type="text">
+              </mat-form-field> -->
+            </ion-item>
+            <ion-item class="border">
+              <ion-label position="stacked">Email Address <span *ngIf="!isProvider" class="form-error">*</span>
+              </ion-label>
+              <ion-input formControlName="email_address" type="text"></ion-input>
+              <!-- <mat-form-field class="full-width">
+                <mat-label>Email Address <span class="form-error">*</span></mat-label>
+                <input matInput formControlName="email_address" type="text">
+              </mat-form-field> -->
+            </ion-item>
+            <div class="label-error-text"
+              *ngIf="getSignupForm.email_address.touched && getSignupForm.email_address.errors">
+              <ion-text color="danger" *ngIf="getSignupForm.email_address.errors.required">Required</ion-text>
+              <ion-text color="danger" *ngIf="getSignupForm.email_address.errors.email">Valid email address</ion-text>
+            </div>
+            <ion-item class="border">
+              <ion-label position="stacked">Mobile Number <span class="form-error">*</span></ion-label>
+              <ion-input formControlName="mobile_number" type="text"></ion-input>
+              <!-- <mat-form-field class="full-width">
+                <mat-label>Mobile Number <span class="form-error">*</span></mat-label>
+                <input matInput formControlName="mobile_number" type="text">
+              </mat-form-field> -->
+            </ion-item>
+            <div class="label-error-text"
+              *ngIf="getSignupForm.mobile_number.touched && getSignupForm.mobile_number.errors">
+              <ion-text color="danger" *ngIf="getSignupForm.mobile_number.errors.required">Required</ion-text>
+              <ion-text color="danger" *ngIf="getSignupForm.mobile_number.errors.minlength">Minimum 10 characters
+                required</ion-text>
+            </div>
+            <!-- <ion-item style="--padding-start: 0px;--padding-end: 0px">
+              <ion-label style="font-weight: normal;">Role</ion-label>
+              <ion-select formControlName="selected_roles" multiple="true" (ionChange)="userRolesUpdated($event)"
+                placeholder="Select Role">
+                <ion-select-option *ngFor="let roles of functionalTypes" value="{{roles.f_id}}">
+                  {{roles.f_name|titlecase}}</ion-select-option>
+              </ion-select>
+            </ion-item> -->
+            
+            <div *ngIf="!onRegisterForm?.value?.selected_roles?.includes(agentCode)">
+              <div *ngIf="!SocialIdResult">
+                <ion-list-header>
+                  <ion-label>Login Information</ion-label>
+                </ion-list-header>
+                <ion-item class="border">
+                  <ion-label position="stacked">Login ID <span class="form-error">*</span></ion-label>
+                  <ion-input formControlName="login_id" type="text"></ion-input>
+                  <!-- <mat-form-field class="full-width">
+                    <mat-label>Login ID <span class="form-error">*</span></mat-label>
+                    <input matInput formControlName="login_id" type="text">
+                  </mat-form-field> -->
+                </ion-item>
+                <div class="label-error-text" *ngIf="getSignupForm.login_id.touched && getSignupForm.login_id.errors">
+                  <ion-text color="danger" *ngIf="getSignupForm.login_id.errors.required">Required</ion-text>
+                </div>
+                <ion-item class="border">
+                  <ion-label position="stacked">Password <span class="form-error">*</span></ion-label>
+                  <ion-input formControlName="password" [type]="lgnHide ? 'password' : 'text'">
+                  </ion-input>
+                  <ion-icon slot="end" [name]="lgnHide ? 'eye' : 'eye-off'" (click)="lgnHide = !lgnHide"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="lgnHide"></ion-icon>
+                  <!-- <mat-form-field class="full-width">
+                    <mat-label>Password <span class="form-error">*</span></mat-label>
+                    <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                  </mat-form-field> -->
+                </ion-item>
+                <div class="label-error-text" *ngIf="getSignupForm.password.touched && getSignupForm.password.errors">
+                  <ion-text color="danger" *ngIf="getSignupForm.password.errors.required">Required</ion-text>
+                  <ion-text color="danger" *ngIf="getSignupForm.password.errors.minlength">Minimum 5 characters
+                    required</ion-text>
+                </div>
+              </div>
+              <ion-row style="padding-top: 10px;">
+                <ion-col size="8">
+                  <ion-label class="checkbox-label">I agree to the Showday <a
+                      (click)="$event.preventDefault();displayTermsConditions()"
+                      style="text-decoration: underline;">Terms
+                      and Conditions</a></ion-label>
+                </ion-col>
+                <ion-col size="4">
+
+                  <ion-checkbox formControlName="accept_terms" style="margin: auto; --background: transparent;"
+                    class="ion-float-right">
+                  </ion-checkbox>
+                </ion-col>
+              </ion-row>
+            </div>
+            <div *ngIf="onRegisterForm?.value?.selected_roles?.includes(agentCode)">
+              <ion-item style="--padding-start: 0px;--padding-end: 0px;border-bottom: 1px solid;">
+                <ion-textarea formControlName="message" style=" --border-radius:1px;" rows="4"
+                  placeholder="Message (Optional)"></ion-textarea>
+              </ion-item>
+            </div>
+            <ion-item>
+              <div class="secondary-information-box" style="text-align: right;">Fields marked with an (<span
+                  class="form-error">*</span>) are required.</div>
+            </ion-item>
+          </ion-list>
+        </form>
+
+        <div *ngIf="!SocialIdResult">
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="doSignup()"
+            [disabled]="!onRegisterForm.valid" tappable>
+            <ion-icon name="log-in"></ion-icon>
+            {{ onRegisterForm?.value?.selected_roles?.includes(agentCode) ? 'Admin Request' : 'Sign Up'}}
+          </ion-button>
+          <!-- <ion-button (click)="test()" expand="block" fill="clear" shape="round">
+            Click me
+          </ion-button> -->
+        </div>
+        <div *ngIf="SocialIdResult">
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="doSignup()"
+            [disabled]="!onRegisterForm.valid" tappable>
+            <ion-icon name="log-in"></ion-icon>
+            Sign In
+          </ion-button>
+        </div>
+      </div>
+      <div *ngSwitchCase="'register_serivce_provider'">
+
+        <!-- Register form -->
+        <!-- <form [formGroup]="serviceProviderRegisterForm" class="list-form">
+          <ion-list lines="none">
+            <ion-list-header>
+              <ion-label>Personal Information</ion-label>
+            </ion-list-header>
+            <ion-item class="ion-no-padding">
+              <ion-label position="stacked">First Name <span class="form-error">*</span></ion-label>
+              <ion-input formControlName="first_name" type="text"></ion-input>
+            </ion-item>
+            <div class="label-error-text" *ngIf="getSignupForm.first_name.touched && getSignupForm.first_name.errors">
+              <ion-text color="danger" *ngIf="getSignupForm.first_name.errors.required">Required</ion-text>
+              <ion-text color="danger" *ngIf="getSignupForm.first_name.errors.minlength">Minimum 3 characters required
+              </ion-text>
+            </div>
+            <ion-item class="ion-no-padding">
+              <ion-label position="stacked">Surname</ion-label>
+              <ion-input formControlName="surname" type="text"></ion-input>
+            </ion-item>
+            <ion-item class="ion-no-padding" lines="full">
+              <ion-label position="stacked">Service Provider Display Name</ion-label>
+              <ion-input formControlName="providerName" type="text"></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-no-padding" lines="full">
+              <ion-label position="stacked">About Service Provider</ion-label>
+              <ion-textarea formControlName="aboutProvider"></ion-textarea>
+            </ion-item>
+            <ion-item class="ion-no-padding" lines="full">
+              <ion-label position="stacked">Mobile Number <span class="form-error">*</span></ion-label>
+              <ion-input formControlName="mobile_number" type="text"></ion-input>
+            </ion-item>
+            <div class="label-error-text"
+              *ngIf="getSignupForm.mobile_number.touched && getSignupForm.mobile_number.errors">
+              <ion-text color="danger" *ngIf="getSignupForm.mobile_number.errors.required">Required</ion-text>
+              <ion-text color="danger" *ngIf="getSignupForm.mobile_number.errors.minlength">Minimum 10 characters
+                required</ion-text>
+            </div>
+
+            <ion-item class="ion-no-padding" lines="full">
+              <ion-label position="stacked">Email Address <span class="form-error">*</span></ion-label>
+              <ion-input formControlName="email_address" type="text"></ion-input>
+            </ion-item>
+            <div class="label-error-text"
+              *ngIf="getSignupForm.email_address.touched && getSignupForm.email_address.errors">
+              <ion-text color="danger" *ngIf="getSignupForm.email_address.errors.email">Valid email address</ion-text>
+            </div>
+            <div *ngIf="!onRegisterForm?.value?.selected_roles?.includes(agentCode)">
+              <ion-list-header>
+                <ion-label>Login Information</ion-label>
+              </ion-list-header>
+              <ion-item class="ion-no-padding" lines="full">
+                <ion-label position="stacked">Login ID <span class="form-error">*</span></ion-label>
+                <ion-input formControlName="login_id" type="text"></ion-input>
+              </ion-item>
+              <div class="label-error-text" *ngIf="getSignupForm.login_id.touched && getSignupForm.login_id.errors">
+                <ion-text color="danger" *ngIf="getSignupForm.login_id.errors.required">Required</ion-text>
+              </div>
+              <ion-item class="ion-no-padding" lines="full">
+                <ion-label position="stacked">Password <span class="form-error">*</span></ion-label>
+                <ion-input formControlName="password" [type]="lgnHide ? 'password' : 'text'">
+                </ion-input>
+                <ion-icon slot="end" [name]="lgnHide ? 'eye' : 'eye-off'" (click)="lgnHide = !lgnHide"
+                  [attr.aria-label]="'Hide password'" [attr.aria-pressed]="lgnHide"></ion-icon>
+              </ion-item>
+              <div class="label-error-text" *ngIf="getSignupForm.password.touched && getSignupForm.password.errors">
+                <ion-text color="danger" *ngIf="getSignupForm.password.errors.required">Required</ion-text>
+              </div>
+              <ion-item class="ion-no-padding" style="padding-top: 10px;">
+                <span class="checkbox-label">&nbsp;I agree to the Showday <a (click)="displayTermsConditions()"
+                    style="text-decoration: underline;">Terms and Conditions</a></span>
+                <ion-checkbox slot="end" formControlName="accept_terms"></ion-checkbox>
+              </ion-item>
+            </div>
+            <ion-item>
+              <div class="secondary-information-box" style="text-align: right;">Fields marked with an (<span
+                  class="form-error">*</span>) are required.</div>
+            </ion-item>
+          </ion-list>
+        </form> -->
+        <div>
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="doProviderSignup()"
+            [disabled]="!serviceProviderRegisterForm.valid" tappable>
+            <ion-icon name="log-in"></ion-icon>
+            Sign Up
+          </ion-button>
+        </div>
+      </div>
+      <div class="ion-text-center build-v">
+        Build Version: v{{version}}
+      </div>
+    </div>
+  </div>
+</ion-content>

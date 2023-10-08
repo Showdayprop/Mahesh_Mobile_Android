@@ -1,0 +1,146 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Marketing</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()" fill="clear">
+        Exit
+        <ion-icon slot="end" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content #content>
+  <form [formGroup]="marketingForm">
+    <ion-item>
+      <ion-label position="stacked">Title <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required formControlName="title" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Type of Property <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select formControlName="type" interface="popover" placeholder="Select One">
+        <ion-select-option *ngFor="let house_types of houseTypes" value="{{house_types.name}}">
+          {{house_types.name|titlecase}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Category <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select formControlName="requirement" interface="popover" placeholder="Select One">
+        <ion-select-option *ngFor="let req of requirements" value="{{req.name}}">{{req.name|titlecase}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="property">
+      <ion-label position="stacked">Location</ion-label>
+      <ion-input readonly *ngIf="property?.area">{{property?.area}}, {{property?.city}}</ion-input>
+      <ion-input readonly *ngIf="!property?.area">Pending Maps Info</ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Minimum Price <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input #min required formControlName="minimum_price" (ionInput)="min.value = format($event)" type="text"
+        maxlength="15" inputmode="numeric"></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.minimum_price">
+      <div class="error-message"
+        *ngIf="marketingForm.get('minimum_price').hasError(validation.type) && (marketingForm.get('minimum_price').touched || marketingForm.get('minimum_price').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Maximum Price</ion-label>
+      <ion-input #max formControlName="maximum_price" (ionInput)="max.value = format($event)" type="text" maxlength="15"
+        inputmode="numeric"></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.maximum_price">
+      <div class="error-message"
+        *ngIf="marketingForm.get('maximum_price').hasError(validation.type) && (marketingForm.get('maximum_price').touched || marketingForm.get('maximum_price').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Description <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-textarea required formControlName="description" rows="4" autoGrow="true" type="text"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Mandate Type <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select formControlName="mandate_type" interface="popover" placeholder="Select One">
+        <ion-select-option *ngFor="let type of utilitySrvc.mandateTypes" value="{{type}}">{{type|titlecase}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.mandate_type">
+      <div class="error-message"
+        *ngIf="marketingForm.get('mandate_type').hasError(validation.type) && (marketingForm.get('mandate_type').touched || marketingForm.get('mandate_type').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Mandate Start Date <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-datetime formControlName="mandate_start_date" [max]="maxDate" [min]="currentDate" placeholder="Select">
+      </ion-datetime>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.mandate_start_date">
+      <div class="error-message"
+        *ngIf="marketingForm.get('mandate_start_date').hasError(validation.type) && (marketingForm.get('mandate_start_date').touched || marketingForm.get('mandate_start_date').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">Mandate Duration (Days) <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input formControlName="mandate_duration" type="number" max="90" min="1" required></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages.mandate_duration">
+      <div class="error-message"
+        *ngIf="marketingForm.get('mandate_duration').hasError(validation.type) && (marketingForm.get('mandate_duration').touched || marketingForm.get('mandate_duration').dirty)">
+        {{ validation.message }}
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="stacked">3D Tour Link</ion-label>
+      <ion-input formControlName="virtualTour" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Features</ion-label>
+      <ion-input formControlName="features" type="text"></ion-input>
+      <ion-button (click)="addFeature(marketingForm.value.features)" expand="block" fill="solid" slot="end"
+        class="ion-align-self-center" [disabled]="marketingForm.value.features=='' || features.length>10">
+        Add
+      </ion-button>
+    </ion-item>
+    <div>
+      <ion-chip *ngFor="let feature of features; index as i" outline color="dark">
+        <ion-label>{{ feature }}</ion-label>
+        <ion-icon name="close-circle" (click)="removeFeature(i)"></ion-icon>
+      </ion-chip>
+    </div>
+
+  </form>
+  <!-- <ion-button (click)="addShowdayEvent()" expand="block" fill="clear" shape="round">
+    Schedule Showday Event
+  </ion-button>
+  <app-calendar-events></app-calendar-events> -->
+  <app-showdays-capture [existingShowdays]="property?.showdays" (showdayUpdated)="capturedShowdays($event)"></app-showdays-capture>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-no-padding">
+    <!-- <ion-button [disabled]="!marketingForm.valid || showdays.length==0 || showdays[0]?.startDate =='' || showdays[0]?.startTime =='' || showdays[0]?.endDate =='' || showdays[0]?.endTime ==''" color="primary" expand="full" fill="solid" (click)="saveContinue()"> -->
+    <ion-button [disabled]="!marketingForm.valid" color="primary" expand="full" fill="solid" (click)="saveContinue()">
+      Save & Continue
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

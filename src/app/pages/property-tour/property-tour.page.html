@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Property Tour</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="share()">
+        <ion-icon mode="md" slot="start" name="share"></ion-icon>
+        Share
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <model-viewer id="model" src="{{modelLink}}" alt="A 3D property model" camera-controls min-camera-orbit="45deg 55deg 1mm"></model-viewer>
+    <div style="position: absolute; left: 0px; bottom: 5px;">
+      <ion-button (click)="walkMode()" color="none">
+        <ion-icon name="walk" color="primary"></ion-icon>
+      </ion-button>
+      <ion-button (click)="surroundMode()" color="none">
+        <ion-icon name="planet" color="primary"></ion-icon>
+      </ion-button>
+    </div>
+    <div style="position: absolute; right: 0px; bottom: 5px;">
+      <div>
+        <ion-button (click)="forward()" color="none">
+          <ion-icon name="arrow-up" color="primary"></ion-icon>
+        </ion-button>
+      </div>
+      <div>
+        <ion-button (click)="backword()" color="none">
+          <ion-icon name="arrow-down" color="primary"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+</ion-content>

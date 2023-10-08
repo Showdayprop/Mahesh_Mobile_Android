@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Specifications</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="exit()" fill="clear">
+        Exit
+        <ion-icon slot="end" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="propertyForm">
+
+    <ion-item>
+      <ion-label position="stacked">Number Of Bedrooms <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required formControlName="bedrooms" type="text" maxlength="2" inputmode="numeric"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Number Of Bathrooms <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required formControlName="bathrooms" type="text" maxlength="2" inputmode="numeric"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Number Of Car Parking(s) <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required formControlName="parkings" type="text" maxlength="2" inputmode="numeric"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Landsize (sqm)</ion-label>
+      <ion-input formControlName="landSize" type="text" maxlength="6" inputmode="numeric"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Building Size (sqm)</ion-label>
+      <ion-input formControlName="buildingSize" type="text" maxlength="6" inputmode="numeric"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Levies (R)</ion-label>
+      <ion-input #levies formControlName="levies" type="text" maxlength="12" inputmode="numeric"
+        (ionInput)="levies.value = format($event)"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Rates and Taxes (R)</ion-label>
+      <ion-input #rates formControlName="ratesTaxes" type="text" maxlength="12" inputmode="numeric"
+        (ionInput)="rates.value = format($event)"></ion-input>
+    </ion-item>
+
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-no-padding">
+    <ion-button [disabled]="!propertyForm.valid" color="primary" expand="full" fill="solid" (click)="saveContinue()">
+      Save & Continue
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

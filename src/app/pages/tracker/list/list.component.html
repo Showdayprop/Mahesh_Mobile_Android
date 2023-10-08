@@ -1,0 +1,47 @@
+<ion-toolbar class="searchbar">
+  <ion-searchbar [(ngModel)]="searchText" (ionChange)="searchbarInteraction($event.target.value)" placeholder="Search for Area, Title or Ref#" inputmode="search" type="search"
+    [debounce]="250" (ionClear)="clearSearch()"></ion-searchbar>
+</ion-toolbar>
+<ion-content class="dark-theme">
+  <ion-row class="ion-text-center">
+    <ion-col size="6">
+      <ion-chip color="secondary" mode="ios" outline="false">
+        <ion-icon name="pin"></ion-icon>
+        <ion-label>Listed {{meta?.total}}</ion-label>
+      </ion-chip>
+    </ion-col><ion-col size="6">
+      <ion-chip color="secondary" mode="ios" outline="false">
+        <ion-icon name="pin"></ion-icon>
+        <ion-label>Sold {{meta?.sold}}</ion-label>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+
+<div style="text-align: center;">
+  <ion-spinner slot="end" *ngIf="isLoading" name="crescent" color="primary"></ion-spinner>
+  </div>
+  <ion-list lines="full">
+    <ion-item-sliding *ngFor="let item of list;index as i">
+      <ion-item (click)="detail(item)" detail="true">
+        <ion-label><h2>{{item.title}}</h2><p>{{item.area_name}}</p></ion-label>
+        
+        <ion-chip color="success" mode="ios" outline="false" *ngIf="item.sold == 1">
+          <ion-label>Sold</ion-label>
+        </ion-chip>
+      </ion-item>
+      <ion-item-options side="start"><ion-item-option color="tertiary" (click)="edit(item)">Edit</ion-item-option>
+        <ion-item-option color="danger" (click)="delete(item,i)">Delete</ion-item-option>
+      </ion-item-options>
+  
+      <ion-item-options side="end">
+        <ion-item-option (click)="sold(item)">{{item.sold == 0 ? 'Sold' : 'Listed'}}</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-card class="ion-text-center" style="--background:black" *ngIf="(!list || list.length == 0) && !isLoading">
+    <ion-card-header>
+      <ion-card-title style="--color:white">No Tracker set configured. Click + to add one</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+</ion-content>

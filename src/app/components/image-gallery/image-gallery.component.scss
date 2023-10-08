@@ -1,0 +1,18 @@
+ion-content{
+    --background:#1d1c1c;
+    .close-icon{
+        font-size: 4em;
+        margin: 4vh 0px 0px 10px;
+        position: relative;
+        z-index: 20;
+    }
+    ion-slides{
+        position: absolute;
+    }
+}
+.swiper-pagination .swiper-pagination-fraction{
+    color: white !important;
+}
+.swiper-pagination >>> .swiper-pagination-fraction {
+    color: white !important;
+}

@@ -1,0 +1,75 @@
+<ng-container *ngIf="type=='nearMe'">
+  <ng-container *ngFor="let item of list">
+    <ion-item (click)="searchSelected([],item)">
+      <ion-label>
+        <h2>{{item.locality?.area}}, {{item.city?.city}}</h2>
+        <p>{{item.state?.state}}, {{item.country}}</p>
+      </ion-label>
+    </ion-item>
+    <ng-container *ngIf="item.estates && item.estates.length>0">
+      <ion-item *ngFor="let estate of item.estates" (click)="searchSelected(estate,item)">
+        <ion-label>
+          <h2>{{estate.community_name}}</h2>
+          <h3>{{item.locality?.area}}, {{item.city?.city}}</h3>
+          <p>{{item.state?.state}}, {{item.country}}</p>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="type=='categories'">
+  <ion-item *ngFor="let item of list" (click)="searchSelected(item)">
+    <ion-label>
+      <h2>{{item.service_type}}</h2>
+      <p *ngIf="item.parent_service">{{item.parent_service}}</p>
+    </ion-label>
+  </ion-item>
+</ng-container>
+
+<ng-container *ngIf="type=='location'">
+  <ng-container *ngIf="list?.estates?.length>0">
+    <ion-item *ngFor="let estate of list?.estates" (click)="searchSelected(estate)">
+      <ion-label>
+        <h2>{{estate.community_name}}</h2>
+        <h3>{{estate.area}}, {{estate.city}}</h3>
+        <p>{{estate.state}}, {{estate.country}}</p>
+      </ion-label>
+    </ion-item>
+  </ng-container>
+  <ng-container *ngIf="list?.areas?.length>0">
+    <ion-item *ngFor="let area of list?.areas" (click)="searchSelected(area)">
+      <ion-label>
+        <h3>{{area.area}}, {{area.city}}</h3>
+        <p>{{area.state}}, {{area.country}}</p>
+      </ion-label>
+    </ion-item>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="type=='provider'">
+  <ion-item *ngFor="let item of list" (click)="openProviderDetailModal(item)">
+    <ion-label>
+      <h3>{{item.affiliate_name}}</h3>
+      <p *ngIf="item.service_cats && item.service_cats.length>0">{{item.service_cats.join(', ')}}</p>
+    </ion-label>
+  </ion-item>
+</ng-container>
+<div style="text-align: center;">
+  <ion-spinner slot="end" *ngIf="loading" name="crescent" color="primary"></ion-spinner>
+  <!-- <ion-button expand="full" color="primary" shape="round" (click)="saveChanges()" [disabled]="checkForUpdates()">
+    Save Roles
+  </ion-button> -->
+</div>
+<ion-item *ngIf="!list || list.length==0">
+  <ion-label>Nothing Available</ion-label>
+</ion-item>
+<!-- <ion-item *ngFor="let item of list" (click)="searchSelected(item,'sub-category')">
+  <ion-label>
+    <h2>{{item.service_type}}</h2>
+    <p *ngIf="item.parent_service">{{item.parent_service}}</p>
+  </ion-label>
+
+  <ng-container *ngIf="type=='provider'">
+  </ng-container>
+</ion-item> -->

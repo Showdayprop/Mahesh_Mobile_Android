@@ -1,0 +1,113 @@
+<ion-header>
+  <ion-toolbar color="medium">
+      <ion-icon slot="start" name="arrow-back" color="secondary" class="back-icon" [routerLink]="type && type=='dynamic' ? ['/'] : ['/tracker/list']"
+        routerDirection="root"></ion-icon>
+    <ion-title>{{detail?.title}}</ion-title>
+
+      <ion-icon *ngIf="type!='dynamic'" slot="end" mode="md" name="share" color="secondary" class="share-icon" (click)="share()">
+      </ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="dark-theme">
+  <ion-grid fixed>
+    <ion-row clas="info">
+      <ion-col size="6">Area</ion-col>
+      <ion-col size="6">{{(detail?.area_name && detail?.area_name!='null' ? detail?.area_name : '')  + (detail?.area?.city ? ', ' + detail?.area?.city :'')}}</ion-col>
+      <ion-col size="6">Initial Price</ion-col>
+      <ion-col size="6">{{detail?.initial_price | number: "1.0-0"}}</ion-col>
+      <ion-col size="6">Lowest Price</ion-col>
+      <ion-col size="6">{{detail?.lowest_price| number: "1.0-0"}}</ion-col>
+      <ion-col size="6">Value Difference</ion-col>
+      <ion-col size="6">{{detail?.diff| number: "1.0-0"}}</ion-col>
+      <ion-col size="6">Property Refs</ion-col>
+      <ion-col size="6">{{detail?.ref_no}}</ion-col>
+      <ion-col size="6">Listed On</ion-col>
+      <ion-col size="6">{{detail?.listed_on | date:'d MMM y'}}</ion-col>
+      <ion-col size="6">SQM Undercover</ion-col>
+      <ion-col size="6">{{detail?.sqm_undercover| number: "1.0-0"}}</ion-col>
+      <ion-col size="6">Price Per SQM</ion-col>
+      <ion-col size="6">{{detail?.per_sqm| number: "1.0-0"}}</ion-col>
+      <ion-col size="6">Levies</ion-col>
+      <ion-col size="6">{{detail?.levies| number: "1.0-0"}}</ion-col>
+      <ion-col size="6">Days on Market</ion-col>
+      <ion-col size="6">{{detail?.days_diff + (detail?.days_diff > 1 ? ' days' : ' day')}}</ion-col>
+      <ion-col size="6">Sold On</ion-col>
+      <ion-col size="6">{{detail?.sold_on | date:'d MMM y'}}</ion-col>
+    </ion-row>
+<!-- <ion-row clas="info">
+  <ng-container *ngIf="detail?.area_name && detail?.area_name!='null'">
+    <ion-col size="6">Area</ion-col>
+    <ion-col size="6">{{detail?.area_name + (detail?.area?.city ? ', ' + detail?.area?.city :'')}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.initial_price">
+    <ion-col size="6">Initial Price</ion-col>
+    <ion-col size="6">{{detail?.initial_price | number: "1.0-0"}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.lowest_price">
+    <ion-col size="6">Lowest Price</ion-col>
+    <ion-col size="6">{{detail?.lowest_price| number: "1.0-0"}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.diff">
+    <ion-col size="6">Value Difference</ion-col>
+    <ion-col size="6">{{detail?.diff| number: "1.0-0"}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.ref_no">
+    <ion-col size="6">Property Refs</ion-col>
+    <ion-col size="6">{{detail?.ref_no}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.listed_on">
+    <ion-col size="6">Listed On</ion-col>
+    <ion-col size="6">{{detail?.listed_on}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.sqm_undercover">
+    <ion-col size="6">SQM Undercover</ion-col>
+    <ion-col size="6">{{detail?.sqm_undercover| number: "1.0-0"}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.per_sqm">
+    <ion-col size="6">Price Per SQM</ion-col>
+    <ion-col size="6">{{detail?.per_sqm| number: "1.0-0"}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.days_diff">
+    <ion-col size="6">Days on Market</ion-col>
+    <ion-col size="6">{{detail?.days_diff + (detail?.days_diff > 1 ? ' days' : ' day')}}</ion-col>
+  </ng-container>
+
+  <ng-container *ngIf="detail?.sold_on">
+    <ion-col size="6">Sold On</ion-col>
+    <ion-col size="6">{{detail?.sold_on}}</ion-col>
+  </ng-container>
+</ion-row> -->
+    <div style="text-align: center;">
+      <ion-spinner slot="end" *ngIf="isLoading" name="crescent" color="primary"></ion-spinner>
+    </div>
+    <ion-row class="gallery" *ngFor="let img of images;index as i">
+      <ion-col size="12">
+        <ng-container *ngIf="img.src; else elseTemplate">
+          <img [src]="img?.src" (click)="openImageGallery(i)">
+        </ng-container>
+        <ng-template #elseTemplate>
+          <img src="{{(img?.image_path + img?.image) | imageurl}}" (click)="openImageGallery(i)">
+        </ng-template>
+        <div *ngIf="type!='dynamic'" (click)="remove(img,i)" class="ion-text-center remove-button">X Remove</div>
+      </ion-col>
+    </ion-row>
+    <ion-card class="ion-text-center" style="--background:black" *ngIf="(!images || images.length == 0) && !isLoading">
+      <ion-card-header>
+        <ion-card-title style="--color:white">No Images uploaded. Click + to add</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" (click)="addImage()" *ngIf="type!='dynamic'">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,43 @@
+ion-content {
+  --background: #0c1118;
+  ion-icon {
+    font-size: 3em;
+    padding: 10px;
+    color: white;
+  }
+  ion-row {
+    font-size: 1.5em;
+    ion-col {
+      margin: 20px 0px;
+      color: white;
+      ion-item {
+        border-radius: 10px;
+        margin-bottom: 10px;
+        margin: 0px 15px;
+        --padding-start: 8px;
+        color: white;
+        ion-label {
+          font-weight: 700;
+          font-size: 1em;
+          text-align: center;
+        }
+        ion-input {
+          text-align: center;
+          font-size: 2em;
+          letter-spacing: 4px;
+        }
+      }
+    }
+    ion-button {
+      width: 100%;
+      margin: 0px 15px;
+    }
+  }
+}
+
+.border-green {
+  border: 2px solid #09ff00d2;
+}
+.border-red {
+  border: 2px solid #ee0707d2;
+}

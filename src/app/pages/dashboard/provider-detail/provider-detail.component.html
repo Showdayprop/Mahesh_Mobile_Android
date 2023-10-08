@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" (click)="dismissModal()" class="close-icon" slot="start"></ion-icon>
+    </ion-buttons>
+    <ion-title>Service Provider</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="share()">
+        <ion-icon mode="md" slot="start" name="share"></ion-icon>
+        Share
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row class="ion-text-center" style="font-size: 2em;">
+    <ion-col size="12">{{item?.affiliate_name}}</ion-col>
+  </ion-row>
+  <ion-row class="ion-text-center" *ngIf="item?.about_me">
+    <ion-col size="12">{{item?.about_me}}</ion-col>
+  </ion-row>
+  <ion-row class="ion-text-center" *ngIf="item?.email_address && item?.email_address!='support@showday.com'">
+    <ion-col size=" 12">{{item?.email_address}}</ion-col>
+  </ion-row>
+  <ion-row class="ion-text-center" *ngIf="item?.contact_number"
+    (click)="common.confirmToCall(item?.contact_number);$event.stopPropagation()">
+    <ion-col size="12"><a style="font-size: 1.6em;
+      font-weight: bolder;">{{item?.contact_number | formatNumber}}</a></ion-col>
+  </ion-row>
+  <ion-row class="ion-text-center" *ngIf="item?.address">
+    <ion-col size="12">Address : {{item?.address}}</ion-col>
+  </ion-row>
+  <ion-row style="margin-top: 10px; font-weight: 600;">
+    <ion-col class="ion-text-center" size="12">List of Available Services</ion-col>
+  </ion-row>
+  <ion-list>
+    <!-- <ion-item > -->
+    <ng-container *ngIf="list">
+
+      <ion-card *ngFor="let item of list['services'];index as idx">
+        <ion-card-header style="color: white;" class="ion-text-center">
+          <ion-row>
+            <ion-col size="12" *ngIf="item.service_title">
+              <ion-label style="font-size: 1.5em; font-weight: 700;">{{item.service_title}}</ion-label>
+              <ion-label style="font-style: oblique;
+                margin-left: 10px;">{{item.service_type}}</ion-label>
+            </ion-col>
+            <ion-col size="12">
+
+              <ion-chip color="success" mode="ios" *ngIf="item.service_cost && item.service_cost !='0'">
+                <ion-label>{{item.currency + ' '+item.service_cost}}</ion-label>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="item.service_long_desc">
+            <ion-col size="12">{{item.service_long_desc}}</ion-col>
+          </ion-row>
+        </ion-card-header>
+        <ion-card-content class="ion-no-padding">
+          <app-image-slider [item]="item" [idx]="idx"></app-image-slider>
+          <!-- <ng-container *ngIf="item.images && item.images.length>0; else elseTemplate">
+            <ion-slides #slides mode="ios" pager="false" scrollbar="ios"
+              (ionSlideWillChange)="imageSlideChange($event,item,idx)">
+              <ion-slide *ngFor="let img of item.images">
+                <img src="{{img.image_source | imageurl}}">
+              </ion-slide>
+            </ion-slides>
+            <ion-row style="padding: 10px;">
+              <ion-col size="12" style="font-size: 1.5em; text-transform: capitalize;">{{item.activeImage ?
+                item.images[item.activeImage]?.title : item.images[0]?.title}}
+              </ion-col>
+              <ion-col size="12">{{item.activeImage ? item.images[item.activeImage]?.desc : item.images[0]?.desc}}
+              </ion-col>
+            </ion-row>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <div *ngIf="item.service_pic">
+              <img src="{{item.service_pic|imageurl}}">
+            </div>
+          </ng-template> -->
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <!-- </ion-item> -->
+  </ion-list>
+  <div id="providerMap"></div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="medium">
+    <ion-buttons>
+      <ion-button (click)="startChat()" expand="full" fill="clear" style="width: 100%;">
+        Chat with Service Provider
+      </ion-button>
+    </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

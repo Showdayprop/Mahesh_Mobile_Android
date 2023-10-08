@@ -1,0 +1,638 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import "~ionic4-auto-complete/auto-complete";
+
+@import "theme/animate.css";
+@import "~leaflet/dist/leaflet.css";
+// @import "~leaflet.markercluster/dist/MarkerCluster.css";
+@import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
+
+ion-item {
+  --ion-item-background: transparent;
+}
+
+// backgrounds //
+.bg-white {
+  background-color: #fff;
+}
+
+.bg-light {
+  background-color: var(--ion-color-light);
+}
+
+.bg-dark {
+  background-color: var(--ion-color-dark);
+}
+
+.bg-primary {
+  background-color: var(--ion-color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--ion-color-secondary);
+}
+
+.bg-tertiary {
+  background-color: var(--ion-color-tertiary);
+}
+
+.bg-profile {
+  background-image: linear-gradient(
+    135deg,
+    var(--ion-color-dark),
+    var(--ion-color-primary)
+  );
+}
+
+.bg-main {
+  background-image: linear-gradient(
+    -135deg,
+    var(--ion-color-medium),
+    var(--ion-color-light)
+  );
+}
+
+// Helpers //
+.w100 {
+  width: 100%;
+}
+
+.bold,
+.fw500 {
+  font-weight: 500 !important;
+}
+
+.fw700 {
+  font-weight: 700 !important;
+}
+
+.text06 {
+  font-size: 0.65rem !important;
+}
+
+.text08 {
+  font-size: 0.8rem !important;
+}
+
+.text1 {
+  font-size: 1rem !important;
+}
+
+.text15 {
+  font-size: 1.5rem !important;
+}
+
+.text20 {
+  font-size: 2rem !important;
+}
+
+.text30 {
+  font-size: 3rem !important;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-primary {
+  color: var(--ion-color-primary);
+}
+
+.text-dark {
+  color: var(--ion-color-dark);
+}
+
+// menu //
+// Menu user profile
+ion-toolbar.user-profile {
+  .user-avatar {
+    width: 68px;
+    height: 68px;
+  }
+  .item-inner {
+    border-width: 0;
+  }
+}
+
+// Custom toolbar (overriding Shadow DOM)
+ion-toolbar {
+  &.ion-color-primary {
+    --ion-color-base: linear-gradient(
+      135deg,
+      var(--ion-color-dark),
+      var(--ion-color-tertiary)
+    ) !important;
+  }
+}
+
+// Android card shadow
+ion-card {
+  &.sc-ion-card-md-h {
+    box-shadow: 0 2px 4px rgba(var(--ion-color-dark-rgb), 0.24);
+  }
+}
+
+// style for auth pages
+.auth-page {
+  // background-image: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
+
+  .grid {
+    padding: 0;
+    .col {
+      padding: 0;
+    }
+  }
+
+  .btn-group {
+    .button-ios,
+    .button-md {
+      border-radius: 0;
+      &:first-of-type {
+        border-radius: 2px 0 0 2px;
+      }
+      &:last-of-type {
+        border-radius: 0 2px 2px 0;
+      }
+    }
+  }
+}
+
+// Showday Wrapper
+.showday-card-wrapper {
+  &::before {
+    content: "";
+    width: 100%;
+    display: block;
+    padding-top: 5rem;
+  }
+  .opt-card {
+    margin-top: -4rem;
+  }
+  .opt-card,
+  .flow-card {
+    .card-background-page {
+      ion-card {
+        width: 100%;
+        height: 168px;
+        position: relative;
+        text-align: center;
+        &:before {
+          content: "";
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          position: absolute;
+          background-color: rgba(var(--ion-color-dark-rgb), 0.1);
+        }
+      }
+
+      .card-title {
+        position: absolute;
+        top: 30%;
+        font-size: 28px;
+        width: 100%;
+        font-weight: 500;
+        color: #fff;
+      }
+
+      .card-subtitle {
+        font-size: 14px;
+        position: absolute;
+        top: 58%;
+        left: 25%;
+        width: 50%;
+        color: #fff;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        background-color: rgba(var(--ion-color-dark-rgb), 0.65);
+      }
+
+      .card-img-status {
+        width: 120px;
+        font-size: 12px;
+        position: absolute;
+        transform: rotate(45deg);
+        padding-top: 8px;
+        padding-bottom: 8px;
+        top: 12px;
+        right: -32px;
+        text-align: center;
+        &.deals {
+          background-color: rgba(var(--ion-color-secondary-rgb), 0.65);
+        }
+        &.promo {
+          background-color: rgba(var(--ion-color-success-rgb), 0.65);
+        }
+        &.sale {
+          background-color: rgba(var(--ion-color-danger-rgb), 0.65);
+        }
+      }
+    }
+  }
+  &.tdeal {
+    border-top: 0;
+    &::before {
+      display: none;
+    }
+    .opt-card {
+      margin-top: 0;
+    }
+  }
+  &.deals {
+    border-top: 0;
+    &::before {
+      display: none;
+    }
+    .opt-card {
+      margin-top: 0;
+      .card-background-page {
+        ion-card {
+          height: 128px;
+          &:before {
+            background-color: rgba(var(--ion-color-success-rgb), 0.75);
+          }
+        }
+        .card-title {
+          top: 20%;
+          font-size: 28px;
+          font-weight: 700;
+        }
+        .card-subtitle {
+          top: 54%;
+          background-color: rgba(var(--ion-color-secondary-rgb), 0.65);
+        }
+      }
+    }
+  }
+
+  .booking-card {
+    padding: 16px;
+    .br {
+      border-right: 1px solid rgba(var(--ion-color-primary-rgb), 0.1);
+    }
+
+    .bb {
+      border-bottom: 1px solid rgba(var(--ion-color-primary-rgb), 0.1);
+    }
+
+    .datetime-btn {
+      .icon {
+        color: var(--ion-color-primary);
+      }
+    }
+
+    .guests {
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: 0;
+      border-bottom-color: transparent;
+      .item {
+        font-size: 1.25rem;
+        padding-left: 0;
+        border: 0;
+        .item-inner {
+          padding: 0;
+        }
+        .label {
+          margin-right: 0;
+        }
+        .select {
+          font-weight: 600;
+          padding-left: 4px;
+          align-items: center;
+          &.select-md,
+          &.select-ios {
+            .select-icon {
+              width: 4px;
+              .select-icon-inner {
+                left: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    ion-grid {
+      margin-top: -5rem;
+      background-color: #fff;
+      padding: 0;
+
+      ion-row {
+        &:first-child {
+          ion-col {
+            padding: 0;
+          }
+        }
+
+        ion-col {
+          display: flex;
+          align-items: center;
+          font-size: 1.5rem;
+
+          ion-icon {
+            margin-right: 1rem;
+            font-size: 2.5rem;
+            width: 2.5rem;
+          }
+        }
+      }
+
+      .searchbar {
+        padding: 0;
+        &.searchbar-ios {
+          background-color: transparent;
+          border: 0;
+          align-items: baseline;
+          .searchbar-search-icon {
+            top: 14px;
+          }
+          .searchbar-input {
+            height: 4rem;
+          }
+        }
+        .searchbar-input {
+          // color: color($colors, primary);
+          border-radius: 1rem;
+        }
+      }
+
+      .datetime {
+        &.datetime-md,
+        &.datetime-ios {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+// Custom tripIonic Menu styles (overriding Shadow DOM)
+ion-menu {
+  ion-header {
+    ion-toolbar {
+      &.ion-color-dark {
+        --ion-color-base: linear-gradient(
+          135deg,
+          black,
+          rgb(87, 86, 86)
+        ) !important;
+      }
+    }
+  }
+}
+
+ion-footer {
+  background-color: saturate($color: #dfdbdb, $amount: 0);
+
+  ion-segment {
+    ion-icon,
+    ion-label {
+      color: #161515;
+    }
+  }
+}
+
+.mto {
+  margin-top: 12px;
+  ion-icon {
+    margin-bottom: -2px;
+  }
+}
+
+.rot40deg {
+  transform: rotate(40deg);
+}
+
+.rot120deg {
+  transform: rotate(120deg);
+}
+
+.rot180deg {
+  transform: rotate(180deg);
+}
+
+.logo {
+  width: 180px;
+  height: 80px;
+  margin: 20px auto 8px;
+  background: url("assets/img/logo.jpg") no-repeat;
+  background-size: 100%;
+}
+
+.form-error {
+  color: var(--form-error-color);
+}
+
+.label-error-text {
+  position: relative;
+  top: -10px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.information-box {
+  margin: 30px 30px !important;
+  text-align: center;
+  color: #fdd045c2;
+
+  .large-icon {
+    font-size: 60px;
+  }
+
+  div {
+    font-size: 14px;
+    color: #dcb538;
+  }
+}
+
+.secondary-information-box {
+  color: #dd576e;
+  font-size: 13px;
+  width: 100%;
+  text-align: left;
+}
+
+// .ios{
+//   ion-content{
+//     --offset-top: -3% !important;
+//   }
+// }
+
+ion-toggle {
+  --background-checked: var(--toggle-background-checked);
+}
+.swiper-pagination-bullet {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  font-size: 12px;
+  color: #000;
+  opacity: 1;
+  // background: rgba(0,0,0,0.2);
+}
+.swiper-pagination-fraction {
+  background: #ffffff61;
+  width: 20vw;
+  padding: 10px 5px;
+  border-radius: 0px 15px 15px 0px;
+  font-weight: bolder;
+  color: white;
+}
+ion-slides {
+  --bullet-background-active: "#c35a5e";
+}
+.swiper-wrapper {
+  z-index: -1 !important;
+}
+ion-alert {
+  .alert-head {
+    text-align: center !important;
+  }
+  .alert-message {
+    text-align: center;
+    padding: 0px 10px !important;
+  }
+  .alert-input-group {
+    padding-bottom: 0px !important;
+  }
+}
+
+.my-filepond {
+  height: 50%;
+  .filepond--list {
+    margin-left: 2em;
+    margin-right: 2em;
+  }
+  .filepond--list-scroller {
+    margin: 10px !important;
+    padding: 10px;
+  }
+}
+
+.small-modal-css {
+  .modal-wrapper {
+    height: 50%;
+    margin: 2em;
+    top: 15%;
+    border-radius: 20px;
+  }
+}
+.medium-modal-css {
+  .modal-wrapper {
+    height: 90vh;
+    width: 90vw;
+    border-radius: 20px;
+  }
+}
+.sc-ion-select-popover-ios,
+.sc-ion-label-ios-h,
+.sc-ion-label-ios-s {
+  white-space: normal !important;
+}
+// @import "~@mobiscroll/angular/dist/css/mobiscroll.scss";
+
+.dark-theme {
+  --background: #363c3f;
+  --color: white;
+  .mat-expansion-panel {
+    background: #404040;
+  }
+  .mat-expansion-panel-header-title {
+    color: white;
+  }
+  .mat-expansion-indicator:after {
+    color: white;
+  }
+  .mat-expansion-panel:not(.mat-expanded):not([aria-disabled="true"])
+    .mat-expansion-panel-header:hover {
+    background: #404040;
+  }
+  .mat-expansion-panel-body {
+    padding: 0px 10px 5px;
+  }
+  ion-item {
+    color: white;
+  }
+  .border {
+    border: 2px solid #ffffff30;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+}
+.ionic-selectable-modal-ios,
+.ionic-selectable-modal-md {
+  ion-toolbar {
+    --border-style: none;
+    --background: #363c3f;
+    ion-button {
+      color: white;
+    }
+  }
+  ion-header {
+    background-color: #363c3f;
+    color: white;
+    ion-searchbar {
+      color: white;
+    }
+  }
+  .sc-ion-searchbar-md-h,
+  .sc-ion-searchbar-md-s {
+    --background: #222425;
+  }
+  ion-footer {
+    background-color: #363c3f;
+    ion-toolbar ion-row ion-col {
+      &:first-child ion-button {
+        --border-color: white;
+        --background-activated: black;
+        margin-right: 15px;
+      }
+      &:last-child ion-button {
+        margin-left: 15px;
+      }
+    }
+  }
+  ion-content {
+    --background: #363c3f;
+    ion-list {
+      background: #363c3f;
+      ion-item {
+        color: white;
+        ion-icon {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.display-order-popover {
+  --max-width: 30vw;
+}

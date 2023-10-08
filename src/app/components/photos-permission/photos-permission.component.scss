@@ -1,0 +1,19 @@
+img{
+    height: 40vh;
+    margin: auto;
+    -webkit-mask: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+}
+ion-toolbar{
+    --border-style:none;
+}
+ion-title{
+    padding: 0px;
+}
+ion-button{
+    width: 80vw;
+    margin: auto;
+}
+h3{
+    line-height: 1.5em;
+    margin-top: 2vh;
+}

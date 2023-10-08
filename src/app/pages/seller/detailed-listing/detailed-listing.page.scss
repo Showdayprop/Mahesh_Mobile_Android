@@ -1,0 +1,15 @@
+ion-footer{
+    ion-toolbar{
+        --min-height:100%;
+        ion-button{
+            margin:0px;
+        }
+    }
+}
+form{
+    padding-bottom: 12px;
+}
+.error-message{
+    padding: 10px;
+    color: red;
+}

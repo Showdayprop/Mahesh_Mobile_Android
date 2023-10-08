@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-button (click)="modalCtrl.dismiss()">
+        <ion-icon slot="start" name="arrow-back" color="secondary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ng-container *ngIf="!participants || participants.length==0; else elseTemplate">
+      <ion-title>Chat</ion-title>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-title>{{participants.length>1 ? 'Group chat' : (participants[0].first_name + (participants[0].surname && participants[0].surname !="null" ? ' ' + participants[0].surname : ''))}}</ion-title>
+    </ng-template>
+    
+    
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen="false">
+  <ion-list *ngIf="messages" lines="none" style="margin-bottom: 4px !important;">
+    <ion-row><ion-col size="12" style="text-align: center; padding: 10px 0px 0px 0px;" *ngIf="metaData.hasNextPage">
+      <ion-chip color="primary" mode="ios" (click)="fetchMessages()">
+        <ion-icon name="refresh"></ion-icon>
+        <ion-label>Load more</ion-label>
+      </ion-chip>
+    </ion-col>
+    </ion-row>
+    <ion-item *ngFor="let chat of messages; index as i; odd as odd;" class="mt-2">
+      <!-- <ion-col size="2" *ngIf="!chat.isOwner">
+				<ion-avatar [hidden]="chat.canMerge">
+					<img *ngIf="chat.user.userInfo?.avatar?.fileUrl" [src]="chat.user.userInfo?.avatar.fileUrl | changeImagePath"/>
+					<img *ngIf="!chat.user.userInfo || !chat.user.userInfo.avatar || !chat.user.userInfo.avatar.fileUrl" src='assets/images/add-info/img-2.png' />
+				</ion-avatar>
+
+			</ion-col> -->
+      <ng-container *ngIf="chat.user?.first_name != userData.first_name;else elseB">
+        <ion-col size="9" class="ion-margin-start text">
+
+          <ion-label>
+            <div class="mx-2" style="white-space: pre-line;">
+              {{chat.msg}}
+            </div>
+            <p>{{chat.user?.first_name}}</p>
+            <p *ngIf="chat.createdAt" class="time">{{chat.createdAt | timeago:live}}</p>
+          </ion-label>
+          <!-- <div class="mx-2 time">
+            <span *ngIf="!chat.isOwner"><span *ngIf="chat.user.role != 'student'" class="msg-teacher">{{chat.user.role}}</span>&nbsp;{{chat.user.name}},&nbsp;</span><span *ngIf="chat.isOwner">You,&nbsp;</span> {{chat.createdAt | timeAgo}}
+          </div> -->
+        </ion-col>
+      </ng-container>
+      <ng-template #elseB>
+
+        <ion-col size="3" class="ion-text-end">
+          <ion-icon *ngIf="chat.read?.includes(participantsAccountIds[0])" name="checkmark" class="msg-status"></ion-icon>
+        </ion-col>
+        <ion-col size="9" class="ion-margin-end text">
+          <ion-label>
+            <div class="mx-2" style="white-space: pre-line;">
+              {{chat.msg}}
+            </div>
+            <p>You</p>
+            <p *ngIf="chat?.createdAt" class="time">{{chat.createdAt | timeago:live}}</p>
+          </ion-label>
+          <!-- <div class="mx-2 time">
+              <span *ngIf="!chat.isOwner"><span *ngIf="chat.user.role != 'student'" class="msg-teacher">{{chat.user.role}}</span>&nbsp;{{chat.user.name}},&nbsp;</span><span *ngIf="chat.isOwner">You,&nbsp;</span> {{chat.createdAt | timeAgo}}
+            </div> -->
+        </ion-col>
+
+      </ng-template>
+
+      <!-- <ion-col size="2" *ngIf="chat.user?.id ==1">
+				<ion-avatar [hidden]="chat.canMerge">
+					<img *ngIf="userData?.avatarUrlSM" [src]="userData.avatarUrlSM | changeImagePath" />
+					<img *ngIf="!userData?.avatarUrlSM" [src]="userData.avatarUrl ? (userData.avatarUrl | changeImagePath) : 'assets/images/add-info/user2.png'" />
+				</ion-avatar>
+			</ion-col> -->
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="medium" >
+    <!-- <ion-icon name="keypad" mode="ios" slot="start" style="color: #00db80"></ion-icon> -->
+    <ion-textarea #myInput class="message-input" maxRows="4" [(ngModel)]="message" placeholder="Write a message"
+      (onkeypress)="($event.which==13)? chatSubmit() : ''"></ion-textarea>
+    <ion-icon name="send" mode="md" slot="end" style="color: #ff585d" (click)="myInput.setFocus();chatSubmit();">
+    </ion-icon>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Service Images</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-fab vertical="top" horizontal="end" slot="fixed" edge *ngIf="images.length<10">
+    <ion-fab-button (click)="addImages()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-card *ngIf="!images || images.length==0;else elseTemplate" mode="ios">
+    <ion-card-header>
+      <ion-card-title>Click + to select images from gallery.</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ng-template #elseTemplate>
+    <ion-card *ngFor="let item of images;index as indx" mode="ios">
+      <ion-card-content>
+        <ion-row>
+          <ion-col size="12" class="image raw" *ngIf="item?.base64">
+            <img [src]="item?.base64" />
+          </ion-col>
+          <ion-col size="12" class="image" *ngIf="item?.image_source">
+            <img [src]="item.image_source | imageurl" style="height: 35vh;" />
+          </ion-col>
+        </ion-row>
+        <!-- <ion-row> -->
+        <ion-row>
+          <ion-col size="12">
+            <ion-input type="text" placeholder="Title" autocapitalize="words" spellcheck="true"
+              [(ngModel)]="item.title"></ion-input>
+          </ion-col>
+          <ion-col size="12">
+            <ion-textarea rows="2" type="text" placeholder="Description" autocapitalize="sentence" spellcheck="true"
+              [(ngModel)]="item.desc"></ion-textarea>
+          </ion-col>
+          <ion-col size="12">
+            <ion-item class="order-select">
+              <ion-label>Display Order</ion-label>
+              <ion-select [(ngModel)]="item.dis_order" [interfaceOptions]="popoverOptions"
+                class="ion-align-items-center" interface="popover"
+                [placeholder]="item.dis_order? item.dis_order : 'Select'" (ionChange)="disOrderChange(item,indx)"
+                (ionBlur)="disOrderBlur(item)">
+                <ion-select-option *ngFor="let i of images;index as j" [value]="j+1" [selected]="item.dis_order == j+1">
+                  {{j+1}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <!-- <ion-chip color="tertiary" outline="true" class="ion-justify-content-center" style="width: 100%;">
+                  <ion-label>Order #
+                    <strong>{{ item?.dis_order ? item.dis_order : ''}}</strong>
+                  </ion-label>
+                  <ion-icon name="arrow-dropdown"></ion-icon>
+                </ion-chip> -->
+          </ion-col>
+        </ion-row>
+        <!-- </ion-col> -->
+        <!-- </ion-row> -->
+        <ion-row>
+          <ion-col size="12" class="ion-text-center delete" (click)="deleteImage(item,indx)">
+            <ion-label>Delete</ion-label>
+            <ion-icon name="trash"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="medium">
+    <ion-buttons>
+      <ion-button (click)="saveUploadRecursive()">
+        Save & Upload Images
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

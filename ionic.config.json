@@ -1,0 +1,9 @@
+{
+  "name": "Showday",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "5c097a81"
+}

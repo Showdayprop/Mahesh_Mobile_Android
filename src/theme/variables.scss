@@ -1,0 +1,119 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$app-primary: mat-palette($mat-indigo);
+$app-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$app-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-theme);
+
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+/** Ionic CSS Variables **/
+:root {
+  --form-error-color: #a30a0a;
+  --price-color: #8d1616;
+
+  --ion-color-primary: #b21117;
+  --ion-color-primary-rgb: 7,99,233;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-shade: #b42429;
+  --ion-color-primary-tint: #b9474b;
+
+  --ion-color-secondary: #ffffff;
+  --ion-color-secondary-rgb: 255,167,43;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 0,0,0;
+  --ion-color-secondary-shade: #ffffff;
+  --ion-color-secondary-tint: #ffb040;
+
+  --ion-color-tertiary: #4cc4ff;
+  --ion-color-tertiary-rgb: 76,196,255;
+  --ion-color-tertiary-contrast: #0445a3;
+  --ion-color-tertiary-contrast-rgb: 0,0,0;
+  --ion-color-tertiary-shade: #43ace0;
+  --ion-color-tertiary-tint: #5ecaff;
+
+  --ion-color-success: #10dc60;
+  --ion-color-success-rgb: 16,220,96;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255,255,255;
+  --ion-color-success-shade: #0ec254;
+  --ion-color-success-tint: #28e070;
+
+  --ion-color-warning: #ffce00;
+  --ion-color-warning-rgb: 255,206,0;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255,255,255;
+  --ion-color-warning-shade: #e0b500;
+  --ion-color-warning-tint: #ffd31a;
+
+  --ion-color-danger: #f04141;
+  --ion-color-danger-rgb: 245,61,61;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255,255,255;
+  --ion-color-danger-shade: #d33939;
+  --ion-color-danger-tint: #f25454;
+
+  --ion-color-dark: #044eb9;
+  --ion-color-dark-rgb: 4,78,185;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255,255,255;
+  --ion-color-dark-shade: #0445a3;
+  --ion-color-dark-tint: #1d60c0;
+
+  --ion-color-medium: #000000;
+  --ion-color-medium-rgb: 65,202,198;
+  --ion-color-medium-contrast: #e8ebee;
+  --ion-color-medium-contrast-rgb: 0,0,0;
+  --ion-color-medium-shade: #c9cece;
+  --ion-color-medium-tint: #8e9191;
+
+  --ion-color-light: #ecf9ff;
+  --ion-color-light-rgb: 236,249,255;
+  --ion-color-light-contrast: #0763e9;
+  --ion-color-light-contrast-rgb: 0,0,0;
+  --ion-color-light-shade: #d0dbe0;
+  --ion-color-light-tint: #eefaff;
+
+  --ion-color-container-bg: #ced3d8;
+  --ion-color-amenities: #d80f30;
+  --ion-color-time: #d80f30;
+  --ion-color-reference-num: #273b72;
+  --ion-section-header-color: #fb4d4d9c;
+  
+  // custom variables
+  --toggle-background-checked:#dc8b87;
+
+  --custom-background-color:#363c3f;
+}
+
+ion-segment-button {
+  --indicator-color: transparent !important;
+  --indicator-color-checked: transparent !important;
+
+  ion-label{
+    --indicator-color: transparent !important;
+  }
+}

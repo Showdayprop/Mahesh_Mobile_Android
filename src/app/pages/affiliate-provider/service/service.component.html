@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Manage Service</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="save()">
+        <ion-icon mode="md" slot="save" name="share"></ion-icon>
+        Save
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="serviceForm">
+    <ion-item lines="full">
+      <ion-label>Category<ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select One"
+        (ionChange)="categorySelected($event)" formControlName="cat" [selectedText]="catSelectedText">
+        <ion-select-option *ngFor="let item of categories" value="{{item.service_id}}">{{item.service_type}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label>Sub Category<ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select interface="popover" placeholder="Select One" formControlName="service_category_id"
+        [selectedText]="subCatSelectedText">
+        <ion-select-option *ngFor="let item of subCatFiltered" value="{{item.service_id}}">{{item.service_type}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button (click)="requestSubCat()" expand="block" fill="outline" size="small">
+          Request for adding a sub category.
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-item lines="full">
+      <ion-label position="stacked">Service Name<ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required formControlName="service_name" type="text" inputmode="text" autocapitalize="words">
+      </ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Service Description</ion-label>
+      <ion-textarea rows="3" formControlName="service_long_desc" autocapitalize="sentence"></ion-textarea>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Service Terms & Conditions</ion-label>
+      <ion-textarea rows="3" formControlName="service_terms_conditions" autocapitalize="sentence"></ion-textarea>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Service Price</ion-label>
+      <ion-input formControlName="service_price" type="number" inputmode="numeric"></ion-input>
+    </ion-item>
+    <!-- <ion-row>
+      <ion-col size="12">Select image for service</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button (click)="selectImages()" expand="block" fill="outline" size="small">
+          Select Images
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+      <input #imagefile type="file" (change)="onFileChange($event)" accept=".jpg,.jpeg,.png" multiple />
+    </ion-item>
+    <ion-row *ngIf="file">
+      <ion-col size="12">
+        <ion-button (click)="removeImg()" expand="block" fill="outline" shape="round">
+          Remove Image
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="editServiceData?.default_pic">
+      <ion-col size="12">
+        <ion-img [src]="editServiceData?.default_pic | imageurl"></ion-img>
+      </ion-col>
+    </ion-row> -->
+  </form>
+  <ion-item>
+    <ion-label>Select Areas</ion-label>
+    <ionic-selectable [isMultiple]="true" [(ngModel)]="selectedAreas" [items]="locations" itemValueField="area_id"
+      itemTextField="area" [canSearch]="true" (onSearch)="searchChange($event,false)"
+      (onChange)="checkForMaxCount($event,'areas')">
+    </ionic-selectable>
+  </ion-item>
+  <ion-item>
+    <ion-label>Select Estates</ion-label>
+    <ionic-selectable [isMultiple]="true" [(ngModel)]="selectedEstates" [items]="locations"
+      itemValueField="community_id" itemTextField="community_name" [canSearch]="true"
+      (onSearch)="searchChange($event,true)" (onChange)="checkForMaxCount($event,'estates')">
+    </ionic-selectable>
+  </ion-item>
+  <ion-item (click)="captureCoordinates()" button>
+    <ion-label>Select Shop Coordinates</ion-label>
+  </ion-item>
+  <ion-row *ngIf="coords" style="padding-left: 10px;">
+    <ion-col size="12">
+      Lat : {{coords?.lat}}
+    </ion-col>
+    <ion-col size="12">
+      Long : {{coords?.long}}
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="">
+      <ion-button (click)="save()" expand="full">
+        Save & Manage Photos
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

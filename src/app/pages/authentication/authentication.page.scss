@@ -1,0 +1,133 @@
+:host {
+    --ion-form-label-color: #333031;
+    --ion-form-input-color: #333031;
+    --ion-form-label-color: #ffffff;
+    --ion-form-input-color: #ffffff;
+
+    .full-width{
+        width: 100%;
+    }
+
+    .no-padding {
+        .mat-form-field-wrapper {
+            padding-bottom: 0 !important;
+        }
+    }
+
+    .auth-content {
+        margin: 0 5%;
+
+        .list-form {
+            padding: 0;
+            margin-bottom: 0;
+            ion-list{
+                background: var(--custom-background-color);
+                margin-bottom: 0px;
+            }
+
+            .border{
+                border: 2px solid #ffffff30;
+                border-radius: 10px;
+                margin-bottom: 10px;
+            }
+            ion-item {
+                background: #363c3f;
+                padding: 0;
+                color:white;
+
+                // &:first-child {
+                //     border-top: none;
+                // }
+
+                &:after {
+                    display: none;
+                }
+
+                ion-label {
+                    font-size: 17px;
+                    color: var(--ion-form-label-color);
+                    // font-weight: bold;
+                }
+
+                ion-input {
+                    font-size: 20px;
+                    color: var(--ion-form-input-color);
+                }
+            }
+        }
+    }
+}
+
+mat-form-field, mat-checkbox{
+    font-size: 13px;
+}
+
+ion-list-header{
+    padding-left: 0;
+    font-weight: bold;
+    color: var(--ion-section-header-color);
+    --background:#363c3f;
+}
+
+.paz {
+    position: relative;
+    z-index: 10;
+}
+
+.build-v{
+    font-size: 14px;
+    color: white;
+    font-style: italic;
+    margin-top: 20px;
+}
+.label-error-text{
+    top: 2px !important;
+    background: #363c3f;
+}
+.header-md:after{
+    height: 0px !important;
+}
+
+ion-toolbar{
+    --background:#363c3f;
+    --color: white;
+    ion-button{
+        color: white;
+    }
+}
+.ios ion-segment{
+    padding-bottom: 5%;
+}
+ion-segment{
+    padding-top: 10px;
+    ion-label{
+        font-size: 16px;
+    }
+}
+ion-content{
+    --background:#363c3f;
+    --color: white;
+    ion-list{
+        --background:#363c3f;
+    }
+    ion-icon{
+        color: white;
+    }
+    ion-checkbox{
+        --border-color:white;
+
+    }
+    .checkbox-label{
+        color:white;
+        white-space: normal;
+        margin: 0px;
+    }
+}
+
+a{
+    color: var(--ion-section-header-color);
+}
+
+.social-profile {
+    margin-top: 25px;
+}

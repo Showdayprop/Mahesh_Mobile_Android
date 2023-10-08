@@ -1,0 +1,178 @@
+:host {
+  .text-white {
+    font-size: 13px;
+  }
+
+  .fw700 {
+    color: black;
+    font-size: 1.3em;
+    padding-left: 6px;
+  }
+
+  .mt10 {
+    margin-top: 10px;
+  }
+
+  .amenities {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 3px 0;
+
+    li {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--ion-color-amenities);
+
+      ion-img {
+        padding-left: 3px;
+        padding-right: 2px;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  ion-col {
+    font-size: 12px;
+  }
+
+  ion-label {
+    font-weight: bold;
+  }
+
+  .label-text {
+    margin-top: 5px;
+  }
+
+  .desc-text {
+    line-height: 1.6em;
+    font-size: 1.2em;
+    margin-bottom: 3%;
+  }
+  .desc {
+    font-size: 1em;
+    padding-left: 10px;
+  }
+}
+ion-footer {
+  .footer-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+  }
+}
+.pagination-bullets {
+  font-size: 7px;
+  color: black;
+  opacity: 1;
+}
+.content-row {
+  padding: 10px;
+}
+.photo-tab {
+  width: 100%;
+  background: #373535;
+  color: white;
+  ion-col {
+    font-size: 1.2em;
+    margin: 2px 0px;
+    ion-icon {
+      vertical-align: middle;
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 1.3em;
+    }
+    span {
+      vertical-align: middle;
+      display: inline-block;
+    }
+  }
+}
+.threed-parent {
+  position: relative;
+  text-align: center;
+  color: white;
+  img:not(.centered) {
+    // opacity: .5;
+  }
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4em;
+}
+.booked {
+  border: 5px solid;
+  border-radius: 20px;
+  --inner-padding-top: 20px;
+  margin: 10px 10px;
+  overflow: visible;
+  .text {
+    position: absolute;
+    top: 2px;
+  }
+  ion-icon {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 2em;
+  }
+}
+.no_showday_slot_row {
+  padding-bottom: 20px;
+}
+.similar_heading {
+  padding-left: 10px;
+}
+.similar_title {
+  padding: 5px 0px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  height: 80px;
+}
+.similar_ref_no {
+  font-weight: normal;
+}
+.similar_slide {
+  width: 200px;
+  height: initial;
+  border: 2px solid #f8f8f8;
+  align-items: unset;
+}
+.similar_img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+.similar_title_label {
+  padding-top: 5px;
+}
+
+#slides {
+  height: 250px;
+}
+
+/* .swiper-slide img {
+  height: 250px;
+} */
+.back_btn {
+  --padding-start: 0px !important;
+  --padding-end: 0px !important;
+}
+
+.icon_back {
+  width: 30px !important;
+  height: 47px !important;
+}
+
+.similar_ref_label {
+  padding: 8px 0px 2px 0px;
+}

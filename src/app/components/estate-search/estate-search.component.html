@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back" (click)="dismissModal()" class="close-icon" slot="start"></ion-icon>
+    </ion-buttons>
+    <ion-title>Select Estate</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-toolbar>
+  <ion-searchbar (ionChange)="searchInput($event)" debounce="1000"></ion-searchbar>
+</ion-toolbar>
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Estates Near You
+    </ion-list-header>
+
+    <div style="text-align: center;">
+      <ion-spinner slot="end" *ngIf="!locationsFromServer" name="crescent" color="primary"></ion-spinner>
+    </div>
+    <ng-container *ngFor="let item of locationsFromServer">
+      <ion-item *ngIf="!item.estates || item.estates.length==0">
+        <ion-label>
+          <h2>{{item.locality?.area}}, {{item.city?.city}}</h2>
+          <p>{{item.state?.state}}, {{item.country}}</p>
+        </ion-label>
+      </ion-item>
+      <ng-container *ngIf="item.estates && item.estates.length>0">
+        <ion-item *ngFor="let estate of item.estates" (click)="searchSelected(estate,'nearby',item)">
+          <ion-label>
+            <h2>{{estate.community_name}}</h2>
+            <h3>{{item.locality?.area}}, {{item.city?.city}}</h3>
+            <p>{{item.state?.state}}, {{item.country}}</p>
+          </ion-label>
+        </ion-item>
+      </ng-container>
+    </ng-container>
+    <!-- <ion-list-header>
+      Search Results
+    </ion-list-header>
+
+    <ng-container *ngIf="searchedList && searchedList.estates.length>0">
+      <ion-item *ngFor="let estate of searchedList.estates" (click)="searchSelected(estate,'estate')">
+        <ion-label>
+          <h2>{{estate.community_name}}</h2>
+          <h3>{{estate.area}}, {{estate.city}}</h3>
+          <p>{{estate.state}}, {{estate.country}}</p>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="searchedList && searchedList.areas.length>0">
+      <ion-item *ngFor="let area of searchedList.areas" (click)="searchSelected(area,'area')">
+        <ion-label>
+          <h3>{{area.area}}, {{area.city}}</h3>
+          <p>{{area.state}}, {{area.country}}</p>
+        </ion-label>
+      </ion-item>
+    </ng-container> -->
+  </ion-list>
+</ion-content>

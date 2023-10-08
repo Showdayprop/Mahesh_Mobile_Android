@@ -1,0 +1,41 @@
+.list-form {
+  padding: 0;
+  margin-bottom: 0;
+  ion-list {
+    background: var(--custom-background-color);
+    margin: 4vw;
+  }
+
+  .border {
+    border: 2px solid #ffffff30;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  ion-item {
+    background: #363c3f;
+    padding: 0;
+    color: white;
+
+    // &:first-child {
+    //     border-top: none;
+    // }
+
+    &:after {
+      display: none;
+    }
+
+    ion-label {
+      font-size: 17px;
+      color: var(--ion-form-label-color);
+      // font-weight: bold;
+    }
+
+    ion-input {
+      font-size: 20px;
+      color: var(--ion-form-input-color);
+    }
+  }
+}
+ion-searchbar {
+  --background: white;
+}

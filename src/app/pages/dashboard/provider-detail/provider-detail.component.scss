@@ -1,0 +1,16 @@
+
+ion-content{
+    --background:#363c3f;
+    --color: white;
+    ion-list{
+        background: none;
+        ion-card{
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+            margin: 8px;
+            color: white;
+        }
+    }
+    #providerMap{
+        height: 30vh;
+    }
+}

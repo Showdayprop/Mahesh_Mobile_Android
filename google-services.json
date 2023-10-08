@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "74844896399",
+    "firebase_url": "https://showday-a4b59.firebaseio.com",
+    "project_id": "showday-a4b59",
+    "storage_bucket": "showday-a4b59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74844896399:android:7fa25b1df5289ba013c4fa",
+        "android_client_info": {
+          "package_name": "com.properties.showday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74844896399-vd5glm7dd3q9jap9es4c8aj883effejj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.properties.showday",
+            "certificate_hash": "0b57cb04269d43cd9f85abd283bcc2a8648651e6"
+          }
+        },
+        {
+          "client_id": "74844896399-f24hhdnp9578ojmaikvelds9gcfu0661.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgDNi7EHOZ6kMcXblWI_azjEFSOi7G45E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74844896399-f24hhdnp9578ojmaikvelds9gcfu0661.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

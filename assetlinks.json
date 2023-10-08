@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "com.properties.showday",
+               "sha256_cert_fingerprints": ["8C:91:8E:94:BB:45:F6:08:86:E3:23:44:0F:3F:59:FA:56:9D:EB:E9:E5:92:46:45:F5:88:B6:C7:99:3B:DD:BE"] }
+}]

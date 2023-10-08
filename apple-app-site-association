@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "PBYLRJSHE7.com.properties.showday",
+                "paths": ["*"]
+            }
+        ]
+    }
+}

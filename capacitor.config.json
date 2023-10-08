@@ -1,0 +1,34 @@
+{
+  "appId": "com.properties.showday",
+  "appName": "Showday",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#0b0100"
+    },
+    "GoogleAuth": {
+      "scopes": [
+        "profile",
+        "email"
+      ],
+      "serverClientId": "74844896399-f24hhdnp9578ojmaikvelds9gcfu0661.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
+  },
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "android-minSdkVersion": "19",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "SplashShowOnlyFirstTime": "true",
+      "SplashScreen": "screen",
+      "AutohideSplashScreen": "false",
+      "FadeSplashScreen": "false",
+      "DisableDeploy": "false"
+    }
+  }
+}

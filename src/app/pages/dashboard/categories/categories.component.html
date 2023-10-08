@@ -1,0 +1,63 @@
+<ion-content>
+  <ion-row>
+    <!-- <ion-col size="4">
+      <ion-card class="container" (click)="selected('properties')">
+        <img src="assets/icons/Ladder.svg" />
+        <ion-card-title>Properties</ion-card-title>
+
+      </ion-card>
+    </ion-col> -->
+    <ion-col size="4" *ngFor="let item of categories">
+      <ion-card class="container" (click)="selected(item)">
+        <img *ngIf="item.service_photo" [src]="item.service_photo | imageurl"   onerror="this.onerror=null;this.src='assets/img/no-photo-available.png'"/>
+        <img *ngIf="!item.service_photo" src="assets/icons/Ladder.svg" />
+        <ion-card-title>{{item.service_type}}</ion-card-title>
+        <div class="unread" *ngIf="(chatSrvc.unreadCount$ | async) > 0 && item.service_type_slug == 'chat'">{{chatSrvc.unreadCount$ | async}}</div>
+        <!-- </ion-card-header> -->
+
+      </ion-card>
+      <!-- <ion-item *ngIf="item.subcategories && item.subcategories.length>0" hidden>
+        <ion-label>Select Sub Categories</ion-label>
+        <ion-select #subcategorySelect name="{{item.service_type_slug}}" multiple
+          (ionChange)="selectedSub($event.detail.value,item)" multiple="true" placeholder="Select One">
+          <ion-select-option *ngFor="let sub of item.subcategories" value="{{sub.service_id}}">{{sub.service_type}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item> -->
+    </ion-col>
+    <!-- <ion-col size="4">
+      <ion-card class="container" (click)="selected({service_type_slug:'chat'})">
+        <img [src]="'./storage/affiliate-categories/chat.svg' | imageurl" />
+        <ion-card-title>Chat</ion-card-title>
+        <div class="unread" *ngIf="(chatSrvc.unreadCount$ | async) > 0">
+          {{chatSrvc.unreadCount$ | async}}</div>
+      </ion-card>
+    </ion-col> -->
+  </ion-row>
+  <ion-item hidden>
+    <ion-label>Select Sub Categories</ion-label>
+    <ionic-selectable [isMultiple]="true" [(ngModel)]="selectedSubs" [items]="selectedCategory?.subcategories"
+      itemValueField="service_id" itemTextField="service_type" [canSearch]="true"
+      (onChange)="selectedSub($event,selectedCategory)" #subcategorySelect>
+      <ng-template ionicSelectableFooterTemplate>
+        <ion-toolbar>
+          <ion-row>
+            <!-- <ion-buttons> -->
+            <ion-col size="6">
+              <ion-button #selectAll (click)="toggleItems()" expand="full" fill="outline" shape="round">
+                {{subcategorySelect.itemsToConfirm.length ? 'Deselect' : 'Select'}}
+                All
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button (click)="confirm()" expand="full" fill="solid" shape="round">
+                {{subcategorySelect.confirmButtonText}}
+              </ion-button>
+            </ion-col>
+            <!-- </ion-buttons> -->
+          </ion-row>
+        </ion-toolbar>
+      </ng-template>
+    </ionic-selectable>
+  </ion-item>
+</ion-content>
